@@ -1,6 +1,17 @@
 subprojects {
+
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.3"
+        }
+    }
+
     apply plugin: 'java'
     apply plugin: 'application'
+    apply plugin: 'kotlin'
 
     repositories {
        mavenCentral()
@@ -9,6 +20,7 @@ subprojects {
     sourceCompatibility = 1.8
 
     dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.3"
         testCompile 'junit:junit:4.12'
     }
 
