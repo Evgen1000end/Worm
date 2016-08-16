@@ -1,5 +1,8 @@
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile project(':scrobbling')
+    compile project(':lastfm-api')
+    compile project(':vk-api')
 }
 buildscript {
     ext.kotlin_version = '1.0.3'
