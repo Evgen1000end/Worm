@@ -1,5 +1,6 @@
 package com.demkin.core.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
@@ -108,4 +109,17 @@ class Track {
     var image: List<Image> = ArrayList()
     @JsonProperty("streamable")
     var streamable: Streamable? = null
+}
+
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder("error", "message")
+@JsonIgnoreProperties(ignoreUnknown = true)
+class ErrorAnswer {
+    @JsonProperty("error")
+    var error: Int? = null
+    @JsonProperty("message")
+    var message: String? = null
+
 }

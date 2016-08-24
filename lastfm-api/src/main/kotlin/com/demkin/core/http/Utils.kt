@@ -1,6 +1,8 @@
 package com.demkin.core.http
 
 import com.demkin.core.REQUEST_URL
+import com.demkin.core.model.ErrorAnswer
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
@@ -13,7 +15,19 @@ import com.sun.net.httpserver.Authenticator
  * @since 16.08.2016
  */
 
-fun Array<Pair<String, String>>.apiParam():String {
+
+fun ObjectMapper.answerHasError(answer: String):Boolean {
+    val root = this.readTree(answer)
+    root.fields().forEach {
+        if (it.key == "error") {
+            return true
+        }
+    }
+    return false
+}
+
+
+fun Iterable<Pair<String, String>>.apiParam():String {
    return this.map{"&${it.first}=${it.second}"}.reduce{ a, b -> "$a$b"}
 }
 

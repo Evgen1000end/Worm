@@ -14,6 +14,5 @@ class UserServiceTest {
     @Test
     fun getLovedTracksAsStringTest(){
         val r = userService.getLovedTracks("Wi-Al", limit = "1000")
-        println(r)
     }
 }

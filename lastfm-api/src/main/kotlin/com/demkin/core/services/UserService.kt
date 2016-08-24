@@ -2,9 +2,11 @@ package com.demkin.core.services
 
 import com.demkin.core.API_KEY
 import com.demkin.core.REQUEST_URL
+import com.demkin.core.http.answerHasError
 import com.demkin.core.http.apiParam
 import com.demkin.core.http.constructRequest
 import com.demkin.core.http.invokeRequestAsString
+import com.demkin.core.model.ErrorAnswer
 import com.demkin.core.model.UserLovedTracks
 import com.fasterxml.jackson.databind.ObjectMapper
 
@@ -18,26 +20,25 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
 
 class UserService {
-    fun getLovedTracks(userName:String, limit:String ="50", page:String ="1"):String{
+    val mapper = ObjectMapper()
 
-        val params = arrayOf(
+    fun getLovedTracks(userName:String, limit:String ="50", page:String ="1"):UserLovedTracks{
+        val params = listOf(
                 Pair("user",userName),
                 Pair("api_key", API_KEY),
                 Pair("limit",limit),
                 Pair("page",page),
                 Pair("format","json")).
                 apiParam()
-
         val response = invokeRequestAsString(constructRequest("user.getlovedtracks",params))
-        val r = response.component1() ?: response.component2().toString()
-        val mapper = ObjectMapper()
+        val body = response.component1() ?: response.component2().toString()
 
-        val root = mapper.readValue(r, UserLovedTracks::class.java)
-
-        root.lovedtracks?.track?.forEach {
-            println(it.name)
+        when (mapper.answerHasError(body)){
+            true -> {
+                val error = mapper.readValue(body, ErrorAnswer::class.java)
+                throw RuntimeException("Request was completed with error: ${error.error} - ${error.message}")
+            }
+            false -> return mapper.readValue(body, UserLovedTracks::class.java)
         }
-
-        return r
     }
 }

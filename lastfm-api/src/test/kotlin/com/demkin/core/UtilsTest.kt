@@ -11,14 +11,10 @@ import org.testng.annotations.Test
 
 class UtilsTest {
 
-
     @Test
     fun paramGenerateTest(){
-
-        val paramArray = arrayOf(Pair("Eugene","26"), Pair("Kate","21"))
-
+        val paramArray = listOf(Pair("Eugene","26"), Pair("Kate","21"))
         val params  = paramArray.apiParam()
-
         assertEquals(params, "&Eugene=26&Kate=21")
 
     }
