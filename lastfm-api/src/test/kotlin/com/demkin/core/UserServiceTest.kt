@@ -9,12 +9,11 @@ import org.testng.annotations.Test
  * @since 16.08.2016
  */
 class UserServiceTest {
-
     val userService = UserService()
 
     @Test
     fun getLovedTracksAsStringTest(){
-        val r = userService.getLovedTracks("Wi-Al")
+        val r = userService.getLovedTracks("Wi-Al", limit = "1000")
         println(r)
     }
 }
