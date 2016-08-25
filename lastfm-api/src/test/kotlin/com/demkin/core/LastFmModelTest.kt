@@ -1,5 +1,6 @@
 package com.demkin.core
 
+import com.demkin.core.http.EMPTY
 import com.demkin.core.http.constructRequest
 import com.demkin.core.http.invokeRequestAsString
 import com.demkin.core.model.UserLovedTracks
@@ -19,11 +20,16 @@ class LastFmModelTest {
 
   @Test
   fun getStringForMappingTest(){
-    val request = constructRequest(REQUEST_USER_GETLOVEDTRACKS, listOf(
-            Pair(PARAMETER_USER, "Wi-Al"),
-            Pair(PARAMETER_LIMIT,1.toString())))
-    val result = invokeRequestAsString(request)
 
+    ///2.0/?method=user.getfriends&user=rj&api_key=YOUR_API_KEY
+
+    val request = constructRequest("artist.getInfo", listOf(
+            Pair("artist","Pink Floyd"),
+            //Pair("user", "Wi-Al"),
+           // Pair("extended", "1"),
+            Pair("username", "Wi-Al")
+    ))
+    val result = invokeRequestAsString(request)
     println(result)
   }
 
@@ -32,6 +38,4 @@ class LastFmModelTest {
     val userLovedTracks = mapper.readValue(loved_tracks, UserLovedTracks::class.java)
     Assert.assertEquals(userLovedTracks.lovedtracks?.track?.get(0)?.name,"Casablanca Moon")
   }
-
-
 }

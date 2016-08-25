@@ -16,6 +16,7 @@ const val REQUEST_SEPARATOR ="?method="
 const val TOKEN_FORMAT = "format"
 const val VALUE_FORMAT = "json"
 const val TOKEN_KEY = "api_key"
+const val EMPTY = "-"
 
 fun ObjectMapper.answerHasError(answer: String): Boolean {
   val root = this.readTree(answer)
@@ -30,7 +31,7 @@ fun ObjectMapper.answerHasError(answer: String): Boolean {
 
 fun Iterable<Pair<String, String>>.httpParameters(): String {
   return (this + Pair(TOKEN_FORMAT, VALUE_FORMAT) + Pair(TOKEN_KEY, API_KEY)).asIterable().
-          map { "&${it.first}=${it.second}" }.
+          map { if (it.second == EMPTY) "&${it.first}" else "&${it.first}=${it.second}" }.
           reduce { a, b -> "$a$b" }
 }
 
