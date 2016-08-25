@@ -111,7 +111,6 @@ class Track {
   var streamable: Streamable? = null
 }
 
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("error", "message")
@@ -121,5 +120,4 @@ class ErrorAnswer {
   var error: Int? = null
   @JsonProperty("message")
   var message: String? = null
-
 }

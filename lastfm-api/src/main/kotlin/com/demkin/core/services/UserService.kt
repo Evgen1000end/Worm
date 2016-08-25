@@ -19,11 +19,9 @@ class UserService {
   fun getLovedTracks(userName: String, limit: String = "50", page: String = "1"): UserLovedTracks {
     val params = listOf(
             Pair("user", userName),
-            Pair("api_key", API_KEY),
             Pair("limit", limit),
-            Pair("page", page),
-            Pair("format", "json")).
-            httpParameters()
+            Pair("page", page)).httpParameters()
+
     val response = invokeRequestAsString(constructRequest("user.getlovedtracks", params))
     val body = response.component1() ?: response.component2().toString()
 

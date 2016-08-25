@@ -1,5 +1,6 @@
 package com.demkin.core.http
 
+import com.demkin.core.API_KEY
 import com.demkin.core.REQUEST_URL
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.httpGet
@@ -23,7 +24,9 @@ fun ObjectMapper.answerHasError(answer: String): Boolean {
 
 
 fun Iterable<Pair<String, String>>.httpParameters(): String {
-  return this.map { "&${it.first}=${it.second}" }.reduce { a, b -> "$a$b" }
+  return (this + (Pair("format","json")) + (Pair("api_key", API_KEY))).asIterable().
+          map { "&${it.first}=${it.second}" }.
+          reduce { a, b -> "$a$b" }
 }
 
 fun constructRequest(methodName: String, params: String): String {

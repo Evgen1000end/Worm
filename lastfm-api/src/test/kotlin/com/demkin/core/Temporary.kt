@@ -1,5 +1,6 @@
 package com.demkin.core
 
+import com.demkin.core.services.CommonService
 import org.testng.annotations.Test
 
 /**
@@ -7,10 +8,15 @@ import org.testng.annotations.Test
  */
 class Temporary {
 
+  val service = CommonService()
+
   @Test
   fun getStringResult() {
+    val r = service.getRequest("user.getartisttracks", listOf(
+            Pair("user", "Wi-Al"),
+            Pair("artist", "Genesis")))
 
-
+    println(r)
   }
 
 }
