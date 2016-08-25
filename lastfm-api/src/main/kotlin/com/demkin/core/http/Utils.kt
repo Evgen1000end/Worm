@@ -11,11 +11,16 @@ import com.github.kittinunf.fuel.httpGet
  * @since 16.08.2016
  */
 
+const val TOKEN_ERROR = "error"
+const val REQUEST_SEPARATOR ="?method="
+const val TOKEN_FORMAT = "format"
+const val VALUE_FORMAT = "json"
+const val TOKEN_KEY = "api_key"
 
 fun ObjectMapper.answerHasError(answer: String): Boolean {
   val root = this.readTree(answer)
   root.fields().forEach {
-    if (it.key == "error") {
+    if (it.key == TOKEN_ERROR) {
       return true
     }
   }
@@ -24,21 +29,18 @@ fun ObjectMapper.answerHasError(answer: String): Boolean {
 
 
 fun Iterable<Pair<String, String>>.httpParameters(): String {
-  return (this + (Pair("format","json")) + (Pair("api_key", API_KEY))).asIterable().
+  return (this + Pair(TOKEN_FORMAT, VALUE_FORMAT) + Pair(TOKEN_KEY, API_KEY)).asIterable().
           map { "&${it.first}=${it.second}" }.
           reduce { a, b -> "$a$b" }
 }
 
 fun constructRequest(methodName: String, params: String): String {
-  return "$REQUEST_URL?method=$methodName$params"
+  return "$REQUEST_URL$REQUEST_SEPARATOR$methodName$params"
 }
 
 fun requestToString(path: String): String {
   val (request, response, result) = path.httpGet().responseString()
   val (data, error) = result
-  println(response)
-  println("Data: " + data)
-  println("Error: " + error)
   return data ?: error.toString()
 }
 

@@ -14,15 +14,24 @@ import com.fasterxml.jackson.databind.ObjectMapper
  * @author evgen1000end
  * @since 16.08.2016
  */
+
+const val REQUEST_USER_GETLOVEDTRACKS = "user.getlovedtracks"
+const val PARAMETER_USER = "user"
+const val PARAMETER_LIMIT = "limit"
+const val PARAMETER_PAGE = "page"
+const val DEFAULT_LIMIT = 50
+const val DEFAULT_PAGE = 1
+
 class UserService {
   val mapper = ObjectMapper()
-  fun getLovedTracks(userName: String, limit: String = "50", page: String = "1"): UserLovedTracks {
-    val params = listOf(
-            Pair("user", userName),
-            Pair("limit", limit),
-            Pair("page", page)).httpParameters()
+  fun getLovedTracks(userName: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): UserLovedTracks {
 
-    val response = invokeRequestAsString(constructRequest("user.getlovedtracks", params))
+    val params = listOf(
+            Pair(PARAMETER_USER, userName),
+            Pair(PARAMETER_LIMIT,limit.toString()),
+            Pair(PARAMETER_PAGE, page.toString())).httpParameters()
+
+    val response = invokeRequestAsString(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
     val body = response.component1() ?: response.component2().toString()
 
     when (mapper.answerHasError(body)) {

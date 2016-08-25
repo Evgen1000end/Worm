@@ -13,6 +13,6 @@ class InvalidRequestTest {
 
   @Test(expectedExceptions = arrayOf(RuntimeException::class))
   fun badRequest() {
-    val r = userService.getLovedTracks("Wi-Al44", limit = "1000")
+    val r = userService.getLovedTracks("Wi-Al44", limit = 1000)
   }
 }

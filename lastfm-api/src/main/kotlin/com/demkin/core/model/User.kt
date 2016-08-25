@@ -25,7 +25,6 @@ class Artist {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("user", "page", "perPage", "totalPages", "total")
 class Attr {
   @JsonProperty("user")
@@ -41,7 +40,6 @@ class Attr {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("uts", "#text")
 class Date {
   @JsonProperty("uts")
@@ -51,7 +49,6 @@ class Date {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("#text", "size")
 class Image {
   @JsonProperty("#text")
@@ -62,7 +59,6 @@ class Image {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("lovedtracks")
 class UserLovedTracks {
   @JsonProperty("lovedtracks")
@@ -71,7 +67,6 @@ class UserLovedTracks {
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("track", "@attr")
 class Lovedtracks {
   @JsonProperty("track")
@@ -82,7 +77,6 @@ class Lovedtracks {
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("#text", "fulltrack")
 class Streamable {
   @JsonProperty("#text")
@@ -92,7 +86,6 @@ class Streamable {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("name", "mbid", "url", "date", "artist", "image", "streamable")
 class Track {
   @JsonProperty("name")
@@ -112,7 +105,6 @@ class Track {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder("error", "message")
 @JsonIgnoreProperties(ignoreUnknown = true)
 class ErrorAnswer {
