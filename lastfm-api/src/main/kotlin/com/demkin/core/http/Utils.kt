@@ -38,10 +38,19 @@ fun constructRequest(methodName: String, params: String): String {
   return "$REQUEST_URL$REQUEST_SEPARATOR$methodName$params"
 }
 
+fun constructRequest(methodName: String, params: Iterable<Pair<String, String>>): String {
+  return constructRequest(methodName, params.httpParameters())
+}
+
 fun requestToString(path: String): String {
   val (request, response, result) = path.httpGet().responseString()
   val (data, error) = result
   return data ?: error.toString()
 }
 
-fun invokeRequestAsString(path: String) = path.httpGet().responseString().third
+fun invokeRequest(path: String) = path.httpGet().responseString().third
+
+fun invokeRequestAsString(path:String):String {
+  val response = invokeRequest(path)
+  return response.component1() ?: response.component2().toString()
+}

@@ -2,7 +2,7 @@ package com.demkin.core.services
 
 import com.demkin.core.http.constructRequest
 import com.demkin.core.http.httpParameters
-import com.demkin.core.http.invokeRequestAsString
+import com.demkin.core.http.invokeRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 
 /**
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
  */
 class CommonService {
   fun getRequest(functionName:String, params:Iterable<Pair<String, String>> ):String {
-    val response = invokeRequestAsString(constructRequest(functionName, params.httpParameters()))
+    val response = invokeRequest(constructRequest(functionName, params.httpParameters()))
     return response.component1() ?: response.component2().toString()
   }
 }

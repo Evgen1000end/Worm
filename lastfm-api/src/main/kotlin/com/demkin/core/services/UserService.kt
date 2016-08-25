@@ -4,7 +4,7 @@ import com.demkin.core.API_KEY
 import com.demkin.core.http.answerHasError
 import com.demkin.core.http.constructRequest
 import com.demkin.core.http.httpParameters
-import com.demkin.core.http.invokeRequestAsString
+import com.demkin.core.http.invokeRequest
 import com.demkin.core.model.ErrorAnswer
 import com.demkin.core.model.UserLovedTracks
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -31,7 +31,7 @@ class UserService {
             Pair(PARAMETER_LIMIT,limit.toString()),
             Pair(PARAMETER_PAGE, page.toString())).httpParameters()
 
-    val response = invokeRequestAsString(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
+    val response = invokeRequest(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
     val body = response.component1() ?: response.component2().toString()
 
     when (mapper.answerHasError(body)) {
