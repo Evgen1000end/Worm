@@ -1,8 +1,7 @@
 package com.demkin.core
 
-import com.demkin.core.http.apiParam
-import org.testng.Assert
-import org.testng.Assert.*
+import com.demkin.core.http.httpParameters
+import org.testng.Assert.assertEquals
 import org.testng.annotations.Test
 
 /**
@@ -11,11 +10,11 @@ import org.testng.annotations.Test
 
 class UtilsTest {
 
-    @Test
-    fun paramGenerateTest(){
-        val paramArray = listOf(Pair("Eugene","26"), Pair("Kate","21"))
-        val params  = paramArray.apiParam()
-        assertEquals(params, "&Eugene=26&Kate=21")
+  @Test
+  fun paramGenerateTest() {
+    val paramArray = listOf(Pair("Eugene", "26"), Pair("Kate", "21"))
+    val params = paramArray.httpParameters()
+    assertEquals(params, "&Eugene=26&Kate=21")
 
-    }
+  }
 }
