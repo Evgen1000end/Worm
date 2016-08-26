@@ -35,11 +35,13 @@ fun Iterable<Pair<String, String>>.httpParameters(): String {
           reduce { a, b -> "$a$b" }
 }
 
-fun constructRequest(methodName: String, params: String): String {
+fun addDefaultParams() ="&$TOKEN_FORMAT=$VALUE_FORMAT&$TOKEN_KEY=$API_KEY"
+
+fun constructRequest(methodName: String, params: String =""): String {
   return "$REQUEST_URL$REQUEST_SEPARATOR$methodName$params"
 }
 
-fun constructRequest(methodName: String, params: Iterable<Pair<String, String>>): String {
+fun constructRequest(methodName: String, params: Iterable<Pair<String, String>> = emptyList()): String {
   return constructRequest(methodName, params.httpParameters())
 }
 

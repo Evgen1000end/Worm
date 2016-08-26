@@ -113,3 +113,10 @@ class ErrorAnswer {
   @JsonProperty("message")
   var message: String? = null
 }
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder("token")
+class TokenResult {
+  @JsonProperty("token")
+  var token: String? = null
+}

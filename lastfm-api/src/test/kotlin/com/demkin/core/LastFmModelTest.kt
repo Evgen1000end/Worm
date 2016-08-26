@@ -2,6 +2,7 @@ package com.demkin.core
 
 import com.demkin.core.http.EMPTY
 import com.demkin.core.http.constructRequest
+import com.demkin.core.http.constructRequest
 import com.demkin.core.http.invokeRequestAsString
 import com.demkin.core.model.UserLovedTracks
 import com.demkin.core.services.PARAMETER_LIMIT
@@ -23,11 +24,11 @@ class LastFmModelTest {
 
     ///2.0/?method=user.getfriends&user=rj&api_key=YOUR_API_KEY
 
-    val request = constructRequest("artist.getInfo", listOf(
-            Pair("artist","Pink Floyd"),
-            //Pair("user", "Wi-Al"),
-           // Pair("extended", "1"),
-            Pair("username", "Wi-Al")
+    val request = constructRequest("auth.getMobileSession", listOf(
+            Pair("api_sig", SHARED_SECRET)
+            ,Pair("username", "Wi-Al")
+            ,Pair("password", "lastfmevgen1000end")
+          //  Pair("user","Wi-Al")
     ))
     val result = invokeRequestAsString(request)
     println(result)
