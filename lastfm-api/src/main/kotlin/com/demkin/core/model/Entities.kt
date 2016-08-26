@@ -14,6 +14,7 @@ import javax.annotation.Generated
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Artist {
   var name: String? = null
   var mbid: String? = null
@@ -23,6 +24,7 @@ class Artist {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Attr {
   var user: String? = null
   var artist:String? = null
@@ -30,6 +32,10 @@ class Attr {
   var perPage: String? = null
   var totalPages: String? = null
   var total: String? = null
+  var date:String? = null
+  var uts:String? = null
+  @JsonProperty("for")
+  var _for:String? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -76,6 +82,8 @@ class Track {
   var date: Date? = null
   var artist: Artist? = null
   var image: List<Image> = ArrayList()
+  var album:Album? = null
+  var attr:Attr? = null
 
   //TODO - No Streamable properties!!
  // @JsonProperty("streamable")
@@ -83,7 +91,7 @@ class Track {
  // @JsonProperty("streamable")
  // var streamableStr:String? = null
 
-  var album:Album? = null
+
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -99,13 +107,58 @@ class TokenResult {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Album {
   @JsonProperty("#text")
   var text: String? = null
   var mbid: String? = null
+  var name:String? = null
+  var url:String? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class ArtistFullTracks {
   var artisttracks: Tracks? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class Registered {
+  @JsonProperty("#text")
+  var text: String? = null
+  var unixtime: String? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+class User {
+  var name: String? = null
+  var realname: String? = null
+  var image: List<Image> = ArrayList()
+  var url: String? = null
+  var country: String? = null
+  var age: String? = null
+  var gender: String? = null
+  var subscriber: String? = null
+  var playcount: String? = null
+  var playlists: String? = null
+  var bootstrap: String? = null
+  var registered: Registered? = null
+  var type: String? = null
+
+  @JsonProperty("scrobblesource")
+  var scrobblesource: String? = null
+  @JsonProperty("recenttrack")
+  var recenttrack: Track? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class Friends {
+  var user: List<User> = ArrayList()
+  @JsonProperty("@attr")
+  var attr: Attr? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class UserFriends {
+  var friends: Friends? = null
 }
