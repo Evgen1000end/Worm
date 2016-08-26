@@ -162,3 +162,10 @@ class Friends {
 class UserFriends {
   var friends: Friends? = null
 }
+
+//NO TESTS
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class UserInfo {
+  var user: User? = null
+}
