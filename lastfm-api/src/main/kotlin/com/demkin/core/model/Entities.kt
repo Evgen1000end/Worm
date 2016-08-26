@@ -21,6 +21,7 @@ class Artist {
   var url: String? = null
   @JsonProperty("#text")
   var text: String? = null
+  var image: List<Image> = ArrayList<Image>()
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
