@@ -11,7 +11,7 @@ import org.testng.annotations.Test
 class UserServiceTest {
   val userService = UserService()
 
-  @Test
+  @Test(enabled = false)
   fun getLovedTracksAsStringTest() {
     val r = userService.getLovedTracks("Wi-Al", limit = 1000)
   }

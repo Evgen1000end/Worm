@@ -68,6 +68,7 @@ class Streamable {
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Track {
   var name: String? = null
   var mbid: String? = null
@@ -75,7 +76,13 @@ class Track {
   var date: Date? = null
   var artist: Artist? = null
   var image: List<Image> = ArrayList()
-  var streamable: Streamable? = null
+
+  //TODO - No Streamable properties!!
+ // @JsonProperty("streamable")
+  //var streamable: Streamable? = null
+ // @JsonProperty("streamable")
+ // var streamableStr:String? = null
+
   var album:Album? = null
 }
 
@@ -90,7 +97,6 @@ class ErrorAnswer {
 class TokenResult {
   var token: String? = null
 }
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Album {
