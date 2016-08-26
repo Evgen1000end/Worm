@@ -1,11 +1,6 @@
 package com.demkin.core.services
 
-import com.demkin.core.API_KEY
-import com.demkin.core.http.answerHasError
-import com.demkin.core.http.constructRequest
-import com.demkin.core.http.constructRequest
-import com.demkin.core.http.httpParameters
-import com.demkin.core.http.invokeRequest
+import com.demkin.core.http.*
 import com.demkin.core.model.ErrorAnswer
 import com.demkin.core.model.UserLovedTracks
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -25,16 +20,14 @@ const val DEFAULT_PAGE = 1
 
 class UserService {
   val mapper = ObjectMapper()
-  fun getLovedTracks(userName: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): UserLovedTracks {
+  val fmService = HttpLastFmService()
 
+  fun getLovedTracks(userName: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): UserLovedTracks {
     val params = listOf(
             Pair(PARAMETER_USER, userName),
             Pair(PARAMETER_LIMIT,limit.toString()),
             Pair(PARAMETER_PAGE, page.toString())).httpParameters()
-
-    val response = invokeRequest(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
-    val body = response.component1() ?: response.component2().toString()
-
+    val body = fmService.invokeRequestAsString(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
     when (mapper.answerHasError(body)) {
       true -> {
         val error = mapper.readValue(body, ErrorAnswer::class.java)

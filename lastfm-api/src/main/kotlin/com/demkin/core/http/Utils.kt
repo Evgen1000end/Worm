@@ -51,9 +51,18 @@ fun requestToString(path: String): String {
   return data ?: error.toString()
 }
 
+
+interface LastFmService {
+  fun invokeRequestAsString(path:String):String
+}
+
+class HttpLastFmService:LastFmService{
+  override fun invokeRequestAsString(path: String): String {
+    val response = invokeRequest(path)
+    return response.component1() ?: response.component2().toString()
+  }
+}
+
 fun invokeRequest(path: String) = path.httpGet().responseString().third
 
-fun invokeRequestAsString(path:String):String {
-  val response = invokeRequest(path)
-  return response.component1() ?: response.component2().toString()
-}
+

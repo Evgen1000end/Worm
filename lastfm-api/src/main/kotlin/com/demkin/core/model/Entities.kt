@@ -18,11 +18,14 @@ class Artist {
   var name: String? = null
   var mbid: String? = null
   var url: String? = null
+  @JsonProperty("#text")
+  var text: String? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Attr {
   var user: String? = null
+  var artist:String? = null
   var page: String? = null
   var perPage: String? = null
   var totalPages: String? = null
@@ -45,12 +48,12 @@ class Image {
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class UserLovedTracks {
-  var lovedtracks: Lovedtracks? = null
+  var lovedtracks: Tracks? = null
 }
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Lovedtracks {
+class Tracks {
   var track: List<Track> = ArrayList<Track>()
   @JsonProperty("@attr")
   var attr: Attr? = null
@@ -73,6 +76,7 @@ class Track {
   var artist: Artist? = null
   var image: List<Image> = ArrayList()
   var streamable: Streamable? = null
+  var album:Album? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -87,3 +91,15 @@ class TokenResult {
   var token: String? = null
 }
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class Album {
+  @JsonProperty("#text")
+  var text: String? = null
+  var mbid: String? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class ArtistFullTracks {
+  var artisttracks: Tracks? = null
+}
