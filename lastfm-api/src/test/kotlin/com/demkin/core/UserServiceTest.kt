@@ -15,4 +15,10 @@ class UserServiceTest {
   fun getLovedTracksAsStringTest() {
     val r = userService.getLovedTracks("Wi-Al", limit = 1000)
   }
+
+  @Test
+  fun getRecentTracksTest(){
+    val r = userService.getRecentTracks("Wi-Al", limit = 1000)
+    println(r)
+  }
 }

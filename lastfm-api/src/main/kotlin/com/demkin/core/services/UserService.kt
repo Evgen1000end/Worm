@@ -3,6 +3,7 @@ package com.demkin.core.services
 import com.demkin.core.http.*
 import com.demkin.core.model.ErrorAnswer
 import com.demkin.core.model.UserLovedTracks
+import com.demkin.core.model.UserRecentTracks
 import com.fasterxml.jackson.databind.ObjectMapper
 
 /**
@@ -11,12 +12,17 @@ import com.fasterxml.jackson.databind.ObjectMapper
  * @since 16.08.2016
  */
 
+//FUNCTION
 const val REQUEST_USER_GETLOVEDTRACKS = "user.getlovedtracks"
+const val REQUEST_USER_GETRECENTTRACKS = "user.getRecentTracks"
+
 const val PARAMETER_USER = "user"
 const val PARAMETER_LIMIT = "limit"
 const val PARAMETER_PAGE = "page"
 const val DEFAULT_LIMIT = 50
 const val DEFAULT_PAGE = 1
+const val DEFAULT_EXTENDED = 1
+const val PARAMETER_EXTENDED = "extended"
 
 class UserService {
   val mapper = ObjectMapper()
@@ -36,4 +42,28 @@ class UserService {
       false -> return mapper.readValue(body, UserLovedTracks::class.java)
     }
   }
+
+  //TODO - timestamps
+  fun getRecentTracks(userName:String,
+                      limit: Int = DEFAULT_LIMIT,
+                      page: Int= DEFAULT_PAGE,
+                      extended:Int = DEFAULT_EXTENDED):UserRecentTracks{
+    val params = listOf(Pair(PARAMETER_USER, userName),
+            Pair(PARAMETER_LIMIT,limit.toString()),
+            Pair(PARAMETER_PAGE, page.toString()),
+            Pair(PARAMETER_EXTENDED, extended.toString())).httpParameters()
+
+    val body = fmService.invokeRequestAsString(constructRequest(REQUEST_USER_GETRECENTTRACKS, params))
+
+    when (mapper.answerHasError(body)) {
+      true -> {
+        val error = mapper.readValue(body, ErrorAnswer::class.java)
+        throw RuntimeException("Request was completed with error: ${error.error} - ${error.message}")
+      }
+      false -> return mapper.readValue(body, UserRecentTracks::class.java)
+    }
+
+  }
+
+
 }
