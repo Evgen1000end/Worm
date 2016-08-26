@@ -77,6 +77,7 @@ class Streamable {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Track {
+  var loved:String? = null
   var name: String? = null
   var mbid: String? = null
   var url: String? = null
@@ -91,8 +92,6 @@ class Track {
   //var streamable: Streamable? = null
  // @JsonProperty("streamable")
  // var streamableStr:String? = null
-
-
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -164,9 +163,13 @@ class UserFriends {
   var friends: Friends? = null
 }
 
-//NO TESTS
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class UserInfo {
   var user: User? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class UserRecentTracks {
+  @JsonProperty("recenttracks")
+  var recenttracks: Tracks? = null
 }
