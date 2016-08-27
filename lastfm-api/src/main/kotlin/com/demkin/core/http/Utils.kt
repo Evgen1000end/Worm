@@ -2,8 +2,11 @@ package com.demkin.core.http
 
 import com.demkin.core.API_KEY
 import com.demkin.core.REQUEST_URL
+import com.demkin.core.REQUEST_URL_HTTPS
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
+import org.apache.commons.codec.digest.DigestUtils
 
 /**
  * Description of com.demkin.core.http
@@ -35,12 +38,13 @@ fun Iterable<Pair<String, String>>.httpParameters(): String {
 
 fun addDefaultParams() ="&$TOKEN_FORMAT=$VALUE_FORMAT&$TOKEN_KEY=$API_KEY"
 
-fun constructRequest(methodName: String, params: String =""): String {
-  return "$REQUEST_URL$REQUEST_SEPARATOR$methodName$params"
+fun constructRequest(methodName: String, params: String ="", useHttps:Boolean = false): String {
+  val protocol = if (useHttps)  REQUEST_URL_HTTPS  else  REQUEST_URL
+  return "$protocol$REQUEST_SEPARATOR$methodName$params"
 }
 
-fun constructRequest(methodName: String, params: Iterable<Pair<String, String>> = emptyList()): String {
-  return constructRequest(methodName, params.httpParameters())
+fun constructRequest(methodName: String, params: Iterable<Pair<String, String>> = emptyList(), useHttps:Boolean = false): String {
+  return constructRequest(methodName, params.httpParameters(), useHttps)
 }
 
 fun requestToString(path: String): String {
@@ -51,15 +55,21 @@ fun requestToString(path: String): String {
 
 
 interface LastFmService {
-  fun invokeRequestAsString(path:String):String
+  fun get(path:String):String
+  fun post(path:String):String
 }
 
 class HttpLastFmService:LastFmService{
-  override fun invokeRequestAsString(path: String): String {
+  override fun get(path: String): String {
     val response = invokeRequest(path)
     return response.component1() ?: response.component2().toString()
+  }
+  override fun post(path: String): String {
+   val response = path.httpPost().responseString().third
+   return response.component1() ?: response.component2().toString()
   }
 }
 
 fun invokeRequest(path: String) = path.httpGet().responseString().third
+
 

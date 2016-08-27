@@ -1,5 +1,6 @@
 package com.demkin.core
 
+import com.demkin.core.model.Authenticator
 import com.demkin.core.services.UserService
 import org.testng.annotations.Test
 
@@ -18,7 +19,7 @@ class UserServiceTest {
 
   @Test
   fun getRecentTracksTest(){
-    val r = userService.getRecentTracks("Wi-Al", limit = 1000)
+    val r = userService.getRecentTracks("Wi-Al", limit = 10)
     println(r)
   }
 }

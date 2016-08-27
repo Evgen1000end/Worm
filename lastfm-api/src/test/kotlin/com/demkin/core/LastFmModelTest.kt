@@ -29,7 +29,7 @@ class LastFmModelTest {
             ,Pair("password", "lastfmevgen1000end")
 
     ).httpParameters())
-    val result = fmService.invokeRequestAsString(request)
+    val result = fmService.get(request)
     println(result)
   }
 

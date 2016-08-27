@@ -173,3 +173,16 @@ class UserRecentTracks {
   @JsonProperty("recenttracks")
   var recenttracks: Tracks? = null
 }
+
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class Session {
+  var subscriber: Int? = null
+  var name: String? = null
+  var key: String? = null
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class UserSession {
+  var session: Session? = null
+}

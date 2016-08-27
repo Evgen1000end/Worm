@@ -14,3 +14,4 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 .idea
+/lastfm-api/src/main/kotlin/com/demkin/core/SecretConstants.kt

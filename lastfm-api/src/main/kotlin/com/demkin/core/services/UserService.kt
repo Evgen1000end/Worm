@@ -2,6 +2,7 @@ package com.demkin.core.services
 
 import com.demkin.core.http.*
 import com.demkin.core.model.ErrorAnswer
+import com.demkin.core.model.Session
 import com.demkin.core.model.UserLovedTracks
 import com.demkin.core.model.UserRecentTracks
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -24,7 +25,7 @@ const val DEFAULT_PAGE = 1
 const val DEFAULT_EXTENDED = 1
 const val PARAMETER_EXTENDED = "extended"
 
-class UserService {
+class UserService(session: Session = Session()):LastFmService(session) {
   val mapper = ObjectMapper()
   val fmService = HttpLastFmService()
 
@@ -33,7 +34,8 @@ class UserService {
             Pair(PARAMETER_USER, userName),
             Pair(PARAMETER_LIMIT,limit.toString()),
             Pair(PARAMETER_PAGE, page.toString())).httpParameters()
-    val body = fmService.invokeRequestAsString(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
+    val body = fmService.get(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
+
     when (mapper.answerHasError(body)) {
       true -> {
         val error = mapper.readValue(body, ErrorAnswer::class.java)
@@ -53,7 +55,7 @@ class UserService {
             Pair(PARAMETER_PAGE, page.toString()),
             Pair(PARAMETER_EXTENDED, extended.toString())).httpParameters()
 
-    val body = fmService.invokeRequestAsString(constructRequest(REQUEST_USER_GETRECENTTRACKS, params))
+    val body = fmService.get(constructRequest(REQUEST_USER_GETRECENTTRACKS, params))
 
     when (mapper.answerHasError(body)) {
       true -> {

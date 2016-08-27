@@ -3,6 +3,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.1'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.1'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+    compile 'de.u-mass:lastfm-java:0.1.2'
 }
 buildscript {
     ext.kotlin_version = '1.0.3'
