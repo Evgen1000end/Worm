@@ -2,10 +2,7 @@ package com.demkin.core
 
 import com.demkin.core.http.*
 import com.demkin.core.model.*
-import com.demkin.core.services.PARAMETER_LIMIT
-import com.demkin.core.services.PARAMETER_PAGE
-import com.demkin.core.services.PARAMETER_USER
-import com.demkin.core.services.REQUEST_USER_GETLOVEDTRACKS
+import com.demkin.core.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.testng.Assert
 import org.testng.annotations.Test

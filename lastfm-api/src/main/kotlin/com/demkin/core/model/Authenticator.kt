@@ -1,13 +1,12 @@
 package com.demkin.core.model
 
-import com.demkin.core.API_KEY
-import com.demkin.core.SHARED_SECRET
+import com.demkin.core.*
 import com.demkin.core.http.HttpLastFmService
 import com.demkin.core.http.answerHasError
 import com.demkin.core.http.constructRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 
-const val AUTH_GETMOBILESESSION = "auth.getMobileSession"
+
 
 class Authenticator {
   val fmService = HttpLastFmService()
@@ -22,7 +21,8 @@ class Authenticator {
   }
 
   private fun createNewSession(username:String, password:String):Session{
-    val signatureParam = SignatureParams(AUTH_GETMOBILESESSION,mapOf(Pair("password", password),Pair("username", username)))
+    val signatureParam = SignatureParams(AUTH_GETMOBILESESSION,
+            mapOf(Pair(PARAMETER_PASSWORD, password),Pair(PARAMETER_USERNAME, username)))
     val signature = createSignature(signatureParam)
     val request = constructRequest(signatureParam, useHttps = true, apiSig = signature)
     val body = fmService.post(request)

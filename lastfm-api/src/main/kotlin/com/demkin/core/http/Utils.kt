@@ -1,8 +1,6 @@
 package com.demkin.core.http
 
-import com.demkin.core.API_KEY
-import com.demkin.core.REQUEST_URL
-import com.demkin.core.REQUEST_URL_HTTPS
+import com.demkin.core.*
 import com.demkin.core.model.SignatureParams
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.httpGet
@@ -14,17 +12,12 @@ import java.util.*
  * @author evgen1000end
  * @since 16.08.2016
  */
-const val TOKEN_ERROR = "error"
-const val REQUEST_SEPARATOR ="?method="
-const val TOKEN_FORMAT = "format"
-const val VALUE_FORMAT = "json"
-const val TOKEN_KEY = "api_key"
-const val EMPTY = "-"
+
 
 fun ObjectMapper.answerHasError(answer: String): Boolean {
   val root = this.readTree(answer)
   root.fields().forEach {
-    if (it.key == TOKEN_ERROR) {
+    if (it.key == PARAMETER_ERROR) {
       return true
     }
   }
@@ -34,8 +27,8 @@ fun ObjectMapper.answerHasError(answer: String): Boolean {
 
 fun Map<String, String>.httpParam(): String {
   val mutable = HashMap(this)
-  mutable.put(TOKEN_FORMAT, VALUE_FORMAT)
-  mutable.put(TOKEN_KEY, API_KEY)
+  mutable.put(PARAMETER_FORMAT, DEFAULT_FORMAT)
+  mutable.put(PARAMETER_API_KEY, API_KEY)
   return  mutable.map { "&${it.key}=${it.value}" }.reduce{a,b -> "$a$b"}
 }
 
