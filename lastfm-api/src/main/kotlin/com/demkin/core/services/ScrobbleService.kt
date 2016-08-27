@@ -18,12 +18,12 @@ const val TRACK_SCROBBLE = "track.scrobble"
 
 class ScrobbleService(session: Session = Session()):LastFmService(session){
 
-  fun scrobble(artistName: String, trackName: String, timestamp: Int, session: Session) {
+  fun scrobble(artistName: String, trackName: String, timestamp: Int) {
     val scrobbleData = ScrobbleData(artistName, trackName, timestamp)
-    return scrobble(scrobbleData, session)
+    return scrobble(scrobbleData)
   }
 
-  fun scrobble(scrobbleData: ScrobbleData, session: Session) {
+  fun scrobble(scrobbleData: ScrobbleData) {
   //  MapUtilities.nullSafePut(params, "album", scrobbleData.getAlbum())
   //  MapUtilities.nullSafePut(params, "albumArtist", scrobbleData.getAlbumArtist())
   //  MapUtilities.nullSafePut(params, "duration", scrobbleData.getDuration())
@@ -38,10 +38,10 @@ class ScrobbleService(session: Session = Session()):LastFmService(session){
                     Pair("method", TRACK_SCROBBLE),
                     Pair("artist", scrobbleData.artist ?: ""),
                     Pair("track", scrobbleData.track ?: ""), Pair("sk", session.key ?: ""),
-                    Pair("timestamp", scrobbleData.timestamp.toString())).toSortedMap(), SHARED_SECRET)
+                    Pair("timestamp", scrobbleData.timestamp.toString())), SHARED_SECRET)
 
     val request = constructRequest(TRACK_SCROBBLE,
-            listOf(Pair("api_sig", signature), Pair("chosenByUser","1"),
+            mapOf(Pair("api_sig", signature), Pair("chosenByUser","1"),
                       Pair("artist", scrobbleData.artist ?: ""),
                     Pair("track", scrobbleData.track ?: ""), Pair("sk", session.key ?: ""),
                     Pair("timestamp", scrobbleData.timestamp.toString())).httpParameters() )

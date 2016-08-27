@@ -6,7 +6,7 @@ import com.demkin.core.REQUEST_URL_HTTPS
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
-import org.apache.commons.codec.digest.DigestUtils
+import java.util.*
 
 /**
  * Description of com.demkin.core.http
@@ -30,29 +30,22 @@ fun ObjectMapper.answerHasError(answer: String): Boolean {
   return false
 }
 
-fun Iterable<Pair<String, String>>.httpParameters(): String {
-  return (this + Pair(TOKEN_FORMAT, VALUE_FORMAT) + Pair(TOKEN_KEY, API_KEY)).asIterable().
-          map { if (it.second == EMPTY) "&${it.first}" else "&${it.first}=${it.second}" }.
-          reduce { a, b -> "$a$b" }
-}
 
-fun addDefaultParams() ="&$TOKEN_FORMAT=$VALUE_FORMAT&$TOKEN_KEY=$API_KEY"
+fun Map<String, String>.httpParameters(): String {
+  val mutable = HashMap(this)
+  mutable.put(TOKEN_FORMAT, VALUE_FORMAT)
+  mutable.put(TOKEN_KEY, API_KEY)
+  return  mutable.map { "&${it.key}=${it.value}" }.reduce{a,b -> "$a$b"}
+}
 
 fun constructRequest(methodName: String, params: String ="", useHttps:Boolean = false): String {
   val protocol = if (useHttps)  REQUEST_URL_HTTPS  else  REQUEST_URL
   return "$protocol$REQUEST_SEPARATOR$methodName$params"
 }
 
-fun constructRequest(methodName: String, params: Iterable<Pair<String, String>> = emptyList(), useHttps:Boolean = false): String {
+fun constructRequest(methodName: String, params: MutableMap<String, String>, useHttps:Boolean = false): String {
   return constructRequest(methodName, params.httpParameters(), useHttps)
 }
-
-fun requestToString(path: String): String {
-  val (request, response, result) = path.httpGet().responseString()
-  val (data, error) = result
-  return data ?: error.toString()
-}
-
 
 interface LastFmService {
   fun get(path:String):String

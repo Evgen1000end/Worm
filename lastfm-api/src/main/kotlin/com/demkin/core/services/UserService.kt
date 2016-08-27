@@ -29,7 +29,7 @@ class UserService(session: Session = Session()):LastFmService(session) {
 
 
   fun getLovedTracks(userName: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): UserLovedTracks {
-    val params = listOf(
+    val params = mapOf(
             Pair(PARAMETER_USER, userName),
             Pair(PARAMETER_LIMIT,limit.toString()),
             Pair(PARAMETER_PAGE, page.toString())).httpParameters()
@@ -49,7 +49,7 @@ class UserService(session: Session = Session()):LastFmService(session) {
                       limit: Int = DEFAULT_LIMIT,
                       page: Int= DEFAULT_PAGE,
                       extended:Int = DEFAULT_EXTENDED):UserRecentTracks{
-    val params = listOf(Pair(PARAMETER_USER, userName),
+    val params = mapOf(Pair(PARAMETER_USER, userName),
             Pair(PARAMETER_LIMIT,limit.toString()),
             Pair(PARAMETER_PAGE, page.toString()),
             Pair(PARAMETER_EXTENDED, extended.toString())).httpParameters()

@@ -23,7 +23,7 @@ class LastFmModelTest {
   @Test(enabled = false)
   fun getStringForMappingTest(){
 
-    val request = constructRequest("auth.getMobileSession", listOf(
+    val request = constructRequest("auth.getMobileSession", mapOf(
             Pair("api_sig", SHARED_SECRET)
             ,Pair("username", "Wi-Al")
             ,Pair("password", "lastfmevgen1000end")
