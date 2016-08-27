@@ -1,10 +1,12 @@
 package ru.demkin.view
 
 import com.demkin.core.model.Authenticator
+import com.demkin.core.model.Session
 import javafx.geometry.Orientation
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ProgressIndicator
+import javafx.stage.Modality
 import ru.demkin.app.Styles
 import ru.demkin.models.CredentialModel
 import ru.demkin.models.Credentials
@@ -13,6 +15,7 @@ import tornadofx.*
 class MainView : View() {
   override val root = Form().addClass(Styles.login)
   val model = CredentialModel(Credentials())
+  var session: Session = Session()
 
   init {
     title = "Last FM and VK Scrobbler"
@@ -43,7 +46,7 @@ class MainView : View() {
 
   private fun loginLastFm(): Boolean {
     try {
-      val session = Authenticator().fetchSession(model.credentials.lastFmLogin.value, model.credentials.lastFmPassword.value)
+      session = Authenticator().fetchSession(model.credentials.lastFmLogin.value, model.credentials.lastFmPassword.value)
       return session != null
     } catch (e: Exception) {
       return false
@@ -58,9 +61,11 @@ class MainView : View() {
         loginLastFm()
       } ui { success ->
         graphic = null
-        if (success)
-          replaceWith(ProtectedView::class, ViewTransition.SlideIn)
-        else
+        if (success) {
+          val v = ProtectedView(session)
+          v.openModal(modality = Modality.NONE)
+          // replaceWith(ProtectedView::class, ViewTransition.SlideIn)
+        } else
           alert(Alert.AlertType.WARNING, "Login failed", "Check your credentials")
       }
     }
