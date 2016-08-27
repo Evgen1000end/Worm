@@ -19,7 +19,7 @@ class AuthentificationTest {
   @Test
   fun authWithPasswordTest(){
     val auth = Authenticator()
-    auth.byPassword(USERNAME, PASSWORD)
+    auth.fetchSession(USERNAME, PASSWORD)
 
   }
 }

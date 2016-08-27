@@ -3,6 +3,7 @@ package com.demkin.core.http
 import com.demkin.core.API_KEY
 import com.demkin.core.REQUEST_URL
 import com.demkin.core.REQUEST_URL_HTTPS
+import com.demkin.core.model.SignatureParams
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
@@ -31,20 +32,26 @@ fun ObjectMapper.answerHasError(answer: String): Boolean {
 }
 
 
-fun Map<String, String>.httpParameters(): String {
+fun Map<String, String>.httpParam(): String {
   val mutable = HashMap(this)
   mutable.put(TOKEN_FORMAT, VALUE_FORMAT)
   mutable.put(TOKEN_KEY, API_KEY)
   return  mutable.map { "&${it.key}=${it.value}" }.reduce{a,b -> "$a$b"}
 }
 
-fun constructRequest(methodName: String, params: String ="", useHttps:Boolean = false): String {
+private fun constructRequest(methodName: String, params: String ="", useHttps:Boolean = false): String {
   val protocol = if (useHttps)  REQUEST_URL_HTTPS  else  REQUEST_URL
   return "$protocol$REQUEST_SEPARATOR$methodName$params"
 }
 
-fun constructRequest(methodName: String, params: MutableMap<String, String>, useHttps:Boolean = false): String {
-  return constructRequest(methodName, params.httpParameters(), useHttps)
+fun constructRequest(params:SignatureParams, apiSig:String ="", useHttps:Boolean = false): String {
+  fun generateSigParam(apiSig: String) = if (apiSig=="") "" else "&api_sig="+apiSig
+  return constructRequest(params.methodName, params.params.httpParam(), useHttps)+generateSigParam(apiSig)
+}
+
+fun constructRequest(methodName: String, params: Map<String, String>, apiSig:String ="", useHttps:Boolean = false): String {
+  fun generateSigParam(apiSig: String) = if (apiSig=="") "" else "&api_sig="+apiSig
+  return constructRequest(methodName, params.httpParam(), useHttps)+generateSigParam(apiSig)
 }
 
 interface LastFmService {

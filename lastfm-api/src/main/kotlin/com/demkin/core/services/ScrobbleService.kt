@@ -3,16 +3,8 @@ package com.demkin.core.services
 import com.demkin.core.API_KEY
 import com.demkin.core.SHARED_SECRET
 import com.demkin.core.http.constructRequest
-import com.demkin.core.http.httpParameters
-import com.demkin.core.model.AUTH_GETMOBILESESSION
-import com.demkin.core.model.ScrobbleData
-import com.demkin.core.model.Session
-import com.demkin.core.model.createSignature
+import com.demkin.core.model.*
 import java.util.*
-
-/**
- * Created by demkinev on 27.08.2016.
- */
 
 const val TRACK_SCROBBLE = "track.scrobble"
 
@@ -32,19 +24,13 @@ class ScrobbleService(session: Session = Session()):LastFmService(session){
   //  MapUtilities.nullSafePut(params, "streamId", scrobbleData.getStreamId())
   // params.put("chosenByUser", StringUtilities.convertFromBoolean(scrobbleData.isChosenByUser()))
   //val result = Caller.getInstance().call("track.scrobble", session, params)
-
-    val signature = createSignature(
-            mapOf(Pair("api_key", API_KEY), Pair("chosenByUser","1"),
-                    Pair("method", TRACK_SCROBBLE),
-                    Pair("artist", scrobbleData.artist ?: ""),
-                    Pair("track", scrobbleData.track ?: ""), Pair("sk", session.key ?: ""),
-                    Pair("timestamp", scrobbleData.timestamp.toString())), SHARED_SECRET)
-
-    val request = constructRequest(TRACK_SCROBBLE,
-            mapOf(Pair("api_sig", signature), Pair("chosenByUser","1"),
-                      Pair("artist", scrobbleData.artist ?: ""),
-                    Pair("track", scrobbleData.track ?: ""), Pair("sk", session.key ?: ""),
-                    Pair("timestamp", scrobbleData.timestamp.toString())).httpParameters() )
+    val signatureParams =SignatureParams(TRACK_SCROBBLE,mapOf(
+            Pair("artist", scrobbleData.artist ?: ""),
+            Pair("track", scrobbleData.track ?: ""),
+            Pair("sk", session.key ?: ""),
+            Pair("timestamp", scrobbleData.timestamp.toString())))
+    val signature = createSignature(signatureParams)
+    val request = constructRequest(signatureParams, apiSig = signature )
     val body = fmService.post(request)
   }
 

@@ -27,12 +27,11 @@ const val PARAMETER_EXTENDED = "extended"
 
 class UserService(session: Session = Session()):LastFmService(session) {
 
-
   fun getLovedTracks(userName: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): UserLovedTracks {
     val params = mapOf(
             Pair(PARAMETER_USER, userName),
             Pair(PARAMETER_LIMIT,limit.toString()),
-            Pair(PARAMETER_PAGE, page.toString())).httpParameters()
+            Pair(PARAMETER_PAGE, page.toString()))
     val body = fmService.get(constructRequest(REQUEST_USER_GETLOVEDTRACKS, params))
 
     when (mapper.answerHasError(body)) {
@@ -43,7 +42,6 @@ class UserService(session: Session = Session()):LastFmService(session) {
       false -> return mapper.readValue(body, UserLovedTracks::class.java)
     }
   }
-
   //TODO - timestamps
   fun getRecentTracks(userName:String,
                       limit: Int = DEFAULT_LIMIT,
@@ -52,10 +50,8 @@ class UserService(session: Session = Session()):LastFmService(session) {
     val params = mapOf(Pair(PARAMETER_USER, userName),
             Pair(PARAMETER_LIMIT,limit.toString()),
             Pair(PARAMETER_PAGE, page.toString()),
-            Pair(PARAMETER_EXTENDED, extended.toString())).httpParameters()
-
+            Pair(PARAMETER_EXTENDED, extended.toString()))
     val body = fmService.get(constructRequest(REQUEST_USER_GETRECENTTRACKS, params))
-
     when (mapper.answerHasError(body)) {
       true -> {
         val error = mapper.readValue(body, ErrorAnswer::class.java)
@@ -63,8 +59,5 @@ class UserService(session: Session = Session()):LastFmService(session) {
       }
       false -> return mapper.readValue(body, UserRecentTracks::class.java)
     }
-
   }
-
-
 }
