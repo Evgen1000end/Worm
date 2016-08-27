@@ -5,6 +5,9 @@ import com.demkin.core.model.SignatureParams
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -65,4 +68,16 @@ class HttpLastFmService:LastFmService{
 
 fun invokeRequest(path: String) = path.httpGet().responseString().third
 
+fun now() = (System.currentTimeMillis() / 1000).toInt()
 
+
+fun timestamp(time:LocalDateTime):Int {
+ return (time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000).toInt()  //of("UTC")
+}
+
+/*
+
+ */
+fun timestamp(time:String):Int {
+  return  timestamp(LocalDateTime.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+}

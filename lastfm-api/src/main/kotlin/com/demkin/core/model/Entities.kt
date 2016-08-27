@@ -130,7 +130,7 @@ class Registered {
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class User {
+class UserEntity {
   var name: String? = null
   var realname: String? = null
   var image: List<Image> = ArrayList()
@@ -153,7 +153,7 @@ class User {
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Friends {
-  var user: List<User> = ArrayList()
+  var user: List<UserEntity> = ArrayList()
   @JsonProperty("@attr")
   var attr: Attr? = null
 }
@@ -165,7 +165,7 @@ class UserFriends {
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class UserInfo {
-  var user: User? = null
+  var user: UserEntity? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

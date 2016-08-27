@@ -1,5 +1,6 @@
 package com.demkin.core
 
+import com.demkin.core.http.now
 import com.demkin.core.model.Authenticator
 import com.demkin.core.services.ScrobbleService
 import de.umass.lastfm.Track
@@ -11,6 +12,6 @@ class ScrobblingTest {
   fun scrobbleTest(){
     val session = Authenticator().fetchSession(USERNAME, PASSWORD)
     val srobbleService = ScrobbleService(session)
-    srobbleService.scrobble("The Doors", "Roadhouse Blues",(System.currentTimeMillis() / 1000).toInt())
+    srobbleService.scrobble("The Doors", "Roadhouse Blues")
   }
 }

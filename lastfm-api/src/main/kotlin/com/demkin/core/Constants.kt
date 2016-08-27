@@ -37,6 +37,8 @@ const val PARAMETER_ARTIST = "artist"
 const val PARAMETER_TRACK = "track"
 const val PARAMETER_SK = "sk"
 const val PARAMETER_TIMESTAMP = "timestamp"
+const val PARAMETER_TO ="to"
+const val PARAMETER_FROM = "from"
 /*
   Parameters default values
  */

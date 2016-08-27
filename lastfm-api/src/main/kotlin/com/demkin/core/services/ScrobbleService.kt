@@ -2,10 +2,16 @@ package com.demkin.core.services
 
 import com.demkin.core.*
 import com.demkin.core.http.constructRequest
+import com.demkin.core.http.now
 import com.demkin.core.model.*
 import java.util.*
 
 class ScrobbleService(session: Session = Session()):LastFmService(session){
+
+  fun scrobble(artistName: String, trackName: String) {
+    val scrobbleData = ScrobbleData(artistName, trackName, now())
+    return scrobble(scrobbleData)
+  }
 
   fun scrobble(artistName: String, trackName: String, timestamp: Int) {
     val scrobbleData = ScrobbleData(artistName, trackName, timestamp)

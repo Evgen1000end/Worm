@@ -1,6 +1,6 @@
 package com.demkin.core
 
-import com.demkin.core.services.UserService
+import com.demkin.core.services.User
 import org.testng.annotations.Test
 
 /**
@@ -9,7 +9,7 @@ import org.testng.annotations.Test
  * @since 16.08.2016
  */
 class InvalidRequestTest {
-  val userService = UserService()
+  val userService = User()
 
   @Test(expectedExceptions = arrayOf(RuntimeException::class))
   fun badRequest() {
