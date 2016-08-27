@@ -11,7 +11,7 @@ package com.demkin.core
  */
 const val REQUEST_URL = "http://ws.audioscrobbler.com/2.0/"
 const val REQUEST_URL_HTTPS = "https://ws.audioscrobbler.com/2.0/"
-const val REQUEST_SEPARATOR ="?method="
+const val REQUEST_SEPARATOR = "?method="
 /*
   Methods names
  */
@@ -37,7 +37,7 @@ const val PARAMETER_ARTIST = "artist"
 const val PARAMETER_TRACK = "track"
 const val PARAMETER_SK = "sk"
 const val PARAMETER_TIMESTAMP = "timestamp"
-const val PARAMETER_TO ="to"
+const val PARAMETER_TO = "to"
 const val PARAMETER_FROM = "from"
 /*
   Parameters default values

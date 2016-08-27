@@ -1,8 +1,8 @@
 package com.demkin.core
 
-import com.demkin.core.http.*
+import com.demkin.core.http.HttpLastFmService
+import com.demkin.core.http.constructRequest
 import com.demkin.core.model.*
-import com.demkin.core.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.testng.Assert
 import org.testng.annotations.Test
@@ -18,25 +18,25 @@ class LastFmModelTest {
   val recent_tracks = "{\"recenttracks\":{\"track\":[{\"artist\":{\"name\":\"Iron Maiden\",\"mbid\":\"ca891d65-d9b0-4258-89f7-e6ba29d83767\",\"url\":\"https://www.last.fm/music/Iron+Maiden\",\"image\":[{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/34s/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"small\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/64s/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"medium\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/174s/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"large\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/300x300/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"extralarge\"}]},\"loved\":\"0\",\"name\":\"The Number of the Beast (1982)\",\"streamable\":\"0\",\"mbid\":\"\",\"album\":{\"#text\":\"\",\"mbid\":\"\"},\"url\":\"https://www.last.fm/music/Iron+Maiden/_/The+Number+of+the+Beast+(1982)\",\"image\":[{\"#text\":\"\",\"size\":\"small\"},{\"#text\":\"\",\"size\":\"medium\"},{\"#text\":\"\",\"size\":\"large\"},{\"#text\":\"\",\"size\":\"extralarge\"}],\"date\":{\"uts\":\"1468608892\",\"#text\":\"15 Jul 2016, 18:54\"}}],\"@attr\":{\"user\":\"Wi-al\",\"page\":\"1\",\"perPage\":\"1\",\"totalPages\":\"25494\",\"total\":\"25494\"}}}"
 
   @Test(enabled = false)
-  fun getStringForMappingTest(){
+  fun getStringForMappingTest() {
 
     val request = constructRequest("auth.getMobileSession", mapOf(
             Pair("api_sig", SHARED_SECRET)
-            ,Pair("username", "Wi-Al")
-            ,Pair("password", "lastfmevgen1000end")
+            , Pair("username", "Wi-Al")
+            , Pair("password", "lastfmevgen1000end")
     ))
     val result = fmService.get(request)
     println(result)
   }
 
   @Test
-  fun parseUserLovedTrackTest(){
+  fun parseUserLovedTrackTest() {
     val userLovedTracks = mapper.readValue(loved_tracks, UserLovedTracks::class.java)
-    Assert.assertEquals(userLovedTracks.lovedtracks?.track?.get(0)?.name,"Casablanca Moon")
+    Assert.assertEquals(userLovedTracks.lovedtracks?.track?.get(0)?.name, "Casablanca Moon")
   }
 
   @Test
-  fun parseGetArtistTracksTest(){
+  fun parseGetArtistTracksTest() {
     val artistTracks = mapper.readValue(artist_tracks, ArtistFullTracks::class.java)
 
     //TODO - Assert
@@ -45,21 +45,21 @@ class LastFmModelTest {
 
 
   @Test
-  fun parseUserFriendsTest(){
+  fun parseUserFriendsTest() {
     val userFriends = mapper.readValue(user_friends, UserFriends::class.java)
 
     println(userFriends)
   }
 
   @Test
-  fun parseUserInfoTest(){
+  fun parseUserInfoTest() {
     val userInfo = mapper.readValue(user_info, UserInfo::class.java)
 
     println(userInfo)
   }
 
   @Test
-  fun parseRecentTrackTest(){
+  fun parseRecentTrackTest() {
     val recentTracks = mapper.readValue(recent_tracks, UserRecentTracks::class.java)
     println(recentTracks)
   }

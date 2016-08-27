@@ -3,6 +3,7 @@ dependencies {
     compile project(':lastfm-api')
     compile project(':vk-api')
     compile project(':scrobbling')
+    compile 'no.tornado:tornadofx:1.5.5'
 }
 buildscript {
     ext.kotlin_version = '1.0.3'

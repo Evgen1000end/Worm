@@ -12,7 +12,7 @@ class UtilsTest {
 
 
   @Test
-  fun timestampTest(){
+  fun timestampTest() {
     println(timestamp(LocalDateTime.now()))
     println(now())
     println(timestamp("1970-01-01 00:00:00"))
