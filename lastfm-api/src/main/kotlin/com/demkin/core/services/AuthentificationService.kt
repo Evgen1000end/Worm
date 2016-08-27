@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
 const val NO_SESSION = "-"
 
+
+
 class AuthentificationService {
   var sessionKey:String = NO_SESSION
   val mapper = ObjectMapper()

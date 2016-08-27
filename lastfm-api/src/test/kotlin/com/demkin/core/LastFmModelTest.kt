@@ -27,8 +27,8 @@ class LastFmModelTest {
             Pair("api_sig", SHARED_SECRET)
             ,Pair("username", "Wi-Al")
             ,Pair("password", "lastfmevgen1000end")
-          //  Pair("user","Wi-Al")
-    ))
+
+    ).httpParameters())
     val result = fmService.invokeRequestAsString(request)
     println(result)
   }

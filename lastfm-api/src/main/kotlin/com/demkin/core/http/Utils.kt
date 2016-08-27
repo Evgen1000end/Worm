@@ -10,7 +10,6 @@ import com.github.kittinunf.fuel.httpGet
  * @author evgen1000end
  * @since 16.08.2016
  */
-
 const val TOKEN_ERROR = "error"
 const val REQUEST_SEPARATOR ="?method="
 const val TOKEN_FORMAT = "format"
@@ -63,5 +62,4 @@ class HttpLastFmService:LastFmService{
 }
 
 fun invokeRequest(path: String) = path.httpGet().responseString().third
-
 
