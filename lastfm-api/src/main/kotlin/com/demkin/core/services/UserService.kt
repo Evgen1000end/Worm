@@ -26,8 +26,7 @@ const val DEFAULT_EXTENDED = 1
 const val PARAMETER_EXTENDED = "extended"
 
 class UserService(session: Session = Session()):LastFmService(session) {
-  val mapper = ObjectMapper()
-  val fmService = HttpLastFmService()
+
 
   fun getLovedTracks(userName: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): UserLovedTracks {
     val params = listOf(

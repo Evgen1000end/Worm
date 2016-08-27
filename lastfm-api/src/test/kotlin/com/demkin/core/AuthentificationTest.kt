@@ -20,6 +20,6 @@ class AuthentificationTest {
   fun authWithPasswordTest(){
     val auth = Authenticator()
     auth.byPassword(USERNAME, PASSWORD)
-        
+
   }
 }

@@ -186,3 +186,53 @@ class Session {
 class UserSession {
   var session: Session? = null
 }
+
+
+class ScrobbleData {
+  var artist: String? = null
+  var track: String? = null
+  var timestamp = -1
+  var duration = -1
+  var album: String? = null
+  var albumArtist: String? = null
+  var musicBrainzId: String? = null
+  var trackNumber = -1
+  var streamId: String? = null
+  var isChosenByUser = true
+  constructor() {
+  }
+
+  constructor(artist: String, track: String, timestamp: Int) {
+    this.artist = artist
+    this.track = track
+    this.timestamp = timestamp
+  }
+
+  constructor(artist: String, track: String, timestamp: Int, duration: Int, album: String, albumArtist: String, musicBrainzId: String,
+              trackNumber: Int, streamId: String) {
+    this.artist = artist
+    this.track = track
+    this.timestamp = timestamp
+    this.duration = duration
+    this.album = album
+    this.albumArtist = albumArtist
+    this.musicBrainzId = musicBrainzId
+    this.trackNumber = trackNumber
+    this.streamId = streamId
+  }
+
+  constructor(artist: String, track: String, timestamp: Int, duration: Int, album: String, albumArtist: String, musicBrainzId: String,
+              trackNumber: Int, streamId: String, chosenByUser: Boolean) {
+    this.artist = artist
+    this.track = track
+    this.timestamp = timestamp
+    this.duration = duration
+    this.album = album
+    this.albumArtist = albumArtist
+    this.musicBrainzId = musicBrainzId
+    this.trackNumber = trackNumber
+    this.streamId = streamId
+    this.isChosenByUser = chosenByUser
+  }
+}
+

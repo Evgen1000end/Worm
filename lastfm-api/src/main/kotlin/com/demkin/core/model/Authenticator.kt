@@ -19,7 +19,7 @@ class Authenticator {
             mapOf(Pair("api_key", API_KEY),
                     Pair("method", AUTH_GETMOBILESESSION),
                     Pair("password", password),
-                    Pair("username", username)), SHARED_SECRET)
+                    Pair("username", username)).toSortedMap(), SHARED_SECRET)
 
     val request = constructRequest(AUTH_GETMOBILESESSION,
             listOf(Pair("username", username),
