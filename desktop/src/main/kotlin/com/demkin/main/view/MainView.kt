@@ -21,29 +21,30 @@ class MainView : View() {
   var session: Session = Session()
   val saveCredential = SimpleBooleanProperty()
   val DEFAULT_INI_PATH = "desktop\\build\\libs\\worm.ini"
-  val DEFAULT_SECTION = "Credential"
+  val SECTION_CREDENTIALS = "Credential"
+  val SECTION_SESSION = "Session"
+  val ini = Wini(File(DEFAULT_INI_PATH))
 
   fun loadIni(){
-    val ini = Wini(File(DEFAULT_INI_PATH))
-    model.lastFmLogin.value = ini.get(DEFAULT_SECTION, "lu")
-    model.lastFmPassword.value = ini.get(DEFAULT_SECTION, "lp")
-    model.vkLogin.value = ini.get(DEFAULT_SECTION, "vu")
-    model.vkPassword.value = ini.get(DEFAULT_SECTION, "vp")
+    model.lastFmLogin.value = ini.get(SECTION_CREDENTIALS, "lu")
+    model.lastFmPassword.value = ini.get(SECTION_CREDENTIALS, "lp")
+    model.vkLogin.value = ini.get(SECTION_CREDENTIALS, "vu")
+    model.vkPassword.value = ini.get(SECTION_CREDENTIALS, "vp")
+    session.key = ini.get(SECTION_SESSION, "key")
   }
 
   fun saveIni(){
-    val ini = Wini(File(DEFAULT_INI_PATH))
 
-    ini.add(DEFAULT_SECTION)
+    ini.add(SECTION_CREDENTIALS)
 
     if (!ini.containsKey("lu"))
-      ini.put(DEFAULT_SECTION,"lu",model.lastFmLogin.value)
+      ini.put(SECTION_CREDENTIALS,"lu",model.lastFmLogin.value)
     if (!ini.containsKey("lp"))
-      ini.put(DEFAULT_SECTION,"lp",model.lastFmPassword.value)
+      ini.put(SECTION_CREDENTIALS,"lp",model.lastFmPassword.value)
     if (!ini.containsKey("vu"))
-      ini.put(DEFAULT_SECTION,"vu",model.vkLogin.value)
+      ini.put(SECTION_CREDENTIALS,"vu",model.vkLogin.value)
     if (!ini.containsKey("vp"))
-      ini.put(DEFAULT_SECTION,"vp",model.vkPassword.value)
+      ini.put(SECTION_CREDENTIALS,"vp",model.vkPassword.value)
     ini.store()
   }
 
@@ -86,15 +87,22 @@ class MainView : View() {
 
   private fun loginLastFm(): Boolean {
     try {
-      session = Authenticator().fetchSession(model.credentials.lastFmLogin.value, model.credentials.lastFmPassword.value)
-      return session != null
+      if (session.key!=null){
+        return  true
+      } else {
+        session = Authenticator().fetchSession(model.credentials.lastFmLogin.value, model.credentials.lastFmPassword.value)
+        ini.add(SECTION_SESSION)
+        if (!ini.containsKey("key"))
+          ini.put(SECTION_SESSION,"key",session.key)
+        ini.store()
+        return session != null
+      }
     } catch (e: Exception) {
       return false
     }
   }
 
   private fun Button.login() {
-
     if (model.commit()) {
       graphic = ProgressIndicator()
       runAsync {
