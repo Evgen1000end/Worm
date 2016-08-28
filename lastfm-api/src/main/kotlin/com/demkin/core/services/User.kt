@@ -34,7 +34,6 @@ class User(session: Session = Session()) : LastFmService(session) {
     }
   }
 
-  //TODO - timestamps
   fun getRecentTracks(userName: String,
                       limit: Int = DEFAULT_LIMIT,
                       page: Int = DEFAULT_PAGE,

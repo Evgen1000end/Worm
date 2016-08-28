@@ -21,3 +21,16 @@ repositories {
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
+
+mainClassName = "ru.demkin.app.MyApp"
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Music generator',
+                'Implementation-Version': '$version',
+                'Main-Class': 'ru.demkin.app.MyApp'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

@@ -46,8 +46,8 @@ fun constructRequest(params: SignatureParams, apiSig: String = "", useHttps: Boo
 }
 
 fun constructRequest(methodName: String, params: Map<String, String>, apiSig: String = "", useHttps: Boolean = false): String {
-  fun generateSigParam(apiSig: String) = if (apiSig == "") "" else "&api_sig=" + apiSig
-  return constructRequest(methodName, params.httpParam(), useHttps) + generateSigParam(apiSig)
+  fun generateSigParam() = if (apiSig == "") "" else "&api_sig=" + apiSig
+  return constructRequest(methodName, params.httpParam(), useHttps) + generateSigParam()
 }
 
 interface LastFmService {
