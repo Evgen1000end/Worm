@@ -3,10 +3,15 @@ package ru.demkin.view
 import com.demkin.core.model.Authenticator
 import com.demkin.core.model.Session
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.event.ActionEvent
+import javafx.event.EventHandler
 import javafx.geometry.Orientation
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ProgressIndicator
+import javafx.scene.media.Media
+import javafx.scene.media.MediaPlayer
+import javafx.scene.media.MediaView
 import javafx.stage.Modality
 import org.ini4j.Wini
 import ru.demkin.app.Styles
@@ -24,6 +29,8 @@ class MainView : View() {
   val SECTION_CREDENTIALS = "Credential"
   val SECTION_SESSION = "Session"
   val ini = Wini(File(DEFAULT_INI_PATH))
+  val SHEEP_URL = "http://cs521313.vk.me//u10484188//audios//3af33d453269.mp3?extra=M7Cn4q2HaROnlE6BkezJ7zdHq1Q9H6v01pdVeTwOVs5zfblpD70s71hgMMsRn8zY_Rv6IXhjWqr7GFFBkQplM4rTmD5pCUUdT-Mebpv8PVl3Yz8TaSYnecqysmag9bdhogh2bY1kPCSF"
+  val ORACLE_URL= "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv"
 
   fun loadIni(){
     model.lastFmLogin.value = ini.get(SECTION_CREDENTIALS, "lu")
@@ -49,6 +56,10 @@ class MainView : View() {
   }
 
   init {
+    val media = Media(SHEEP_URL)
+    val mediaPlayer = MediaPlayer(media)
+    mediaPlayer.setAutoPlay(true)
+
     loadIni()
 
     title = "Last FM and VK Scrobbler"
@@ -82,7 +93,36 @@ class MainView : View() {
           login()
         }
       }
+
+      button("Play") {
+        setOnAction(EventHandler<javafx.event.ActionEvent> {
+          val status = mediaPlayer.getStatus()
+          if (status === MediaPlayer.Status.UNKNOWN || status === MediaPlayer.Status.HALTED) {
+            return@EventHandler
+          }
+
+          if (status === MediaPlayer.Status.PAUSED
+                  || status === MediaPlayer.Status.READY
+                  || status === MediaPlayer.Status.STOPPED) {
+            // rewind the movie if we're sitting at the end
+//              if (atEndOfMedia) {
+//                mp.seek(mp.getStartTime())
+//                atEndOfMedia = false
+//              }
+            mediaPlayer.play()
+          } else {
+            mediaPlayer.pause()
+          }
+        })
+      }
+
+      val mediaView = MediaView()
+      mediaView.mediaPlayer = mediaPlayer
+      //mediaView.prefHeight(100.0)
+
+      children.add(mediaView)
     }
+
   }
 
   private fun loginLastFm(): Boolean {
