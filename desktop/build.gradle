@@ -4,6 +4,7 @@ dependencies {
     compile project(':vk-api')
     compile project(':scrobbling')
     compile 'no.tornado:tornadofx:1.5.5'
+    compile 'org.ini4j:ini4j:0.5.4'
 }
 buildscript {
     ext.kotlin_version = '1.0.3'
@@ -26,11 +27,11 @@ mainClassName = "ru.demkin.app.MyApp"
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'Music generator',
+        attributes 'Implementation-Title': 'Worm',
                 'Implementation-Version': '$version',
                 'Main-Class': 'ru.demkin.app.MyApp'
     }
-    baseName = project.name + '-all'
+    baseName = 'Worm'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
