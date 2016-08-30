@@ -4,6 +4,7 @@ dependencies {
     compile project(':vk-api')
     compile project(':scrobbling')
     compile 'no.tornado:tornadofx:1.5.5'
+    compile 'no.tornado:tornadofx-controls:1.0.5'
     compile 'org.ini4j:ini4j:0.5.4'
 }
 buildscript {
