@@ -6,7 +6,21 @@ import java.util.function.Consumer
 //var listener: ChangeListener<String>? = null
 
 
+class Tempo(val a:String){
+  open fun showSomething() = println("Hello "+a)
+}
+
 fun main(args: Array<String>) {
-  //val listener:ChangeListener<String> = { a, b, c -> println("") }
-  val consumer:Consumer<String> = Consumer { println(it)}
+  val tempo =Tempo("eug")
+
+  with(tempo){
+    println("sd")
+    showSomething()
+  }
+
+  val r = run {
+    tempo.a
+  }
+
+  println(r)
 }
