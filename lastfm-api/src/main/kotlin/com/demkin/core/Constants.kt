@@ -19,6 +19,7 @@ const val AUTH_GETMOBILESESSION = "auth.getMobileSession"
 const val TRACK_SCROBBLE = "track.scrobble"
 const val REQUEST_USER_GETLOVEDTRACKS = "user.getlovedtracks"
 const val REQUEST_USER_GETRECENTTRACKS = "user.getRecentTracks"
+const val REQUEST_ARTIST_GETTOPTRACLS = "artist.getTopTracks"
 
 /*
   Methods Parameters

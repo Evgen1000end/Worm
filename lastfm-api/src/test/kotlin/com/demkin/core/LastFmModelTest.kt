@@ -17,13 +17,15 @@ class LastFmModelTest {
   val user_info = "{\"user\":{\"name\":\"Wi-al\",\"realname\":\"Евгений\",\"image\":[{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/34s/9faab925524e4e68ce7c291257a87aaf.png\",\"size\":\"small\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/64s/9faab925524e4e68ce7c291257a87aaf.png\",\"size\":\"medium\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/174s/9faab925524e4e68ce7c291257a87aaf.png\",\"size\":\"large\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/300x300/9faab925524e4e68ce7c291257a87aaf.png\",\"size\":\"extralarge\"}],\"url\":\"https://www.last.fm/user/Wi-al\",\"country\":\"Russian Federation\",\"age\":\"0\",\"gender\":\"n\",\"subscriber\":\"0\",\"playcount\":\"25501\",\"playlists\":\"0\",\"bootstrap\":\"0\",\"registered\":{\"#text\":1340014405,\"unixtime\":\"1340014405\"},\"type\":\"user\"}}"
   val recent_tracks = "{\"recenttracks\":{\"track\":[{\"artist\":{\"name\":\"Iron Maiden\",\"mbid\":\"ca891d65-d9b0-4258-89f7-e6ba29d83767\",\"url\":\"https://www.last.fm/music/Iron+Maiden\",\"image\":[{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/34s/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"small\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/64s/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"medium\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/174s/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"large\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/300x300/3232796779fd4f4184e7bb4505657afd.png\",\"size\":\"extralarge\"}]},\"loved\":\"0\",\"name\":\"The Number of the Beast (1982)\",\"streamable\":\"0\",\"mbid\":\"\",\"album\":{\"#text\":\"\",\"mbid\":\"\"},\"url\":\"https://www.last.fm/music/Iron+Maiden/_/The+Number+of+the+Beast+(1982)\",\"image\":[{\"#text\":\"\",\"size\":\"small\"},{\"#text\":\"\",\"size\":\"medium\"},{\"#text\":\"\",\"size\":\"large\"},{\"#text\":\"\",\"size\":\"extralarge\"}],\"date\":{\"uts\":\"1468608892\",\"#text\":\"15 Jul 2016, 18:54\"}}],\"@attr\":{\"user\":\"Wi-al\",\"page\":\"1\",\"perPage\":\"1\",\"totalPages\":\"25494\",\"total\":\"25494\"}}}"
 
+
+  val artist_top = "{\"toptracks\":{\"track\":[{\"name\":\"Wish You Were Here\",\"playcount\":\"9946280\",\"listeners\":\"989989\",\"mbid\":\"feecff58-8ee2-4a7f-ac23-dc8ce7925286\",\"url\":\"https://www.last.fm/music/Pink+Floyd/_/Wish+You+Were+Here\",\"streamable\":\"0\",\"artist\":{\"name\":\"Pink Floyd\",\"mbid\":\"83d91898-7763-47d7-b03b-b92132375c47\",\"url\":\"https://www.last.fm/music/Pink+Floyd\"},\"image\":[{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/34s/3d4cd4641d5c4ce1969c04a01b9e3cc9.png\",\"size\":\"small\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/64s/3d4cd4641d5c4ce1969c04a01b9e3cc9.png\",\"size\":\"medium\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/174s/3d4cd4641d5c4ce1969c04a01b9e3cc9.png\",\"size\":\"large\"},{\"#text\":\"https://lastfm-img2.akamaized.net/i/u/300x300/3d4cd4641d5c4ce1969c04a01b9e3cc9.png\",\"size\":\"extralarge\"}],\"@attr\":{\"rank\":\"1\"}}],\"@attr\":{\"artist\":\"Pink Floyd\",\"page\":\"1\",\"perPage\":\"1\",\"totalPages\":\"340155\",\"total\":\"340155\"}}}"
+
   @Test(enabled = false)
   fun getStringForMappingTest() {
 
-    val request = constructRequest("auth.getMobileSession", mapOf(
-            Pair("api_sig", SHARED_SECRET)
-            , Pair("username", "Wi-Al")
-            , Pair("password", "lastfmevgen1000end")
+    val request = constructRequest("artist.getTopTracks ", mapOf(
+            Pair("artist", "Pink Floyd")
+            , Pair("limit", "1")
     ))
     val result = fmService.get(request)
     println(result)
@@ -62,5 +64,11 @@ class LastFmModelTest {
   fun parseRecentTrackTest() {
     val recentTracks = mapper.readValue(recent_tracks, UserRecentTracks::class.java)
     println(recentTracks)
+  }
+
+  @Test
+  fun parseArtistTopTracks(){
+    val artistTopTracks = mapper.readValue(artist_top, ArtistTopTracks::class.java)
+    println(artistTopTracks)
   }
 }

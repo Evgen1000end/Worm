@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
+import javax.annotation.Generated
 
 /**
  * Description of com.demkin.core.model
@@ -35,6 +36,7 @@ class Attr {
   var uts: String? = null
   @JsonProperty("for")
   var _for: String? = null
+  var rank:String? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -84,6 +86,9 @@ class Track {
   var image: List<Image> = ArrayList()
   var album: Album? = null
   var attr: Attr? = null
+
+  @JsonProperty("@attr")
+  var _attr:Attr? = null
 
   //TODO - No Streamable properties!!
   // @JsonProperty("streamable")
@@ -233,5 +238,12 @@ class ScrobbleData {
     this.streamId = streamId
     this.isChosenByUser = chosenByUser
   }
+}
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class ArtistTopTracks {
+  @JsonProperty("toptracks")
+  var toptracks: Tracks? = null
+
 }
 
