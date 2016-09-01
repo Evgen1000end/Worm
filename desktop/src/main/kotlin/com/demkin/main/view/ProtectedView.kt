@@ -1,6 +1,8 @@
 package ru.demkin.view
 
+import com.demkin.core.model.ArtistTopTracks
 import com.demkin.core.model.Session
+import com.demkin.core.services.Artist
 import com.demkin.core.services.ScrobbleService
 import com.demkin.core.services.User
 import com.demkin.main.view.OraclePlayerView
@@ -11,6 +13,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.geometry.Orientation
 import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 import javafx.scene.media.MediaView
@@ -36,6 +39,8 @@ class ProtectedView(val session: Session) : View() {
 
   val selectedSong = SimpleStringProperty()
   val userService = User()
+  val artistService = Artist()
+  var topTracks = ArtistTopTracks()
 
   init {
     title = "Send Artist/Song information on server"
@@ -57,18 +62,35 @@ class ProtectedView(val session: Session) : View() {
       }
       add(OraclePlayerView(MediaPlayer(Media(SHEEP_URL))))
 
-      combobox<String>(property = selectedSong) {
-        userService.getLovedTracks("Wi-Al").lovedtracks?.track?.forEach {
-          items.add(it.artist?.name+" - "+it.name)
-        }
-        valueProperty().addListener { observableValue, s1, s2->
-          println(s1+" "+s2)
-          println(observableValue)
-        }
+      val cbSongList = ComboBox<String>()
+      cbSongList.bind(property =selectedSong )
+      add(cbSongList)
 
-      }
+
+//      combobox<String>(property = selectedSong) {
+//        userService.getLovedTracks("Wi-Al").lovedtracks?.track?.forEach {
+//          items.add(it.artist?.name+" - "+it.name)
+//        }
+//        valueProperty().addListener { observableValue, s1, s2->
+//          println(s1+" "+s2)
+//          println(observableValue)
+//        }
+//
+//      }
 
       label("test").bind(selectedSong)
+
+      button("Find top tracks") {
+
+        setOnAction {
+          cbSongList.items.clear()
+          topTracks = artistService.getTopTracks(artist.value)
+
+          topTracks.toptracks?.track?.forEach {
+            cbSongList.items.add(it.artist?.name+" - "+it.name)
+          }
+        }
+      }
     }
   }
 
