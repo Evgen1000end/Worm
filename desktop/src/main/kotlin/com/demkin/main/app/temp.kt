@@ -6,14 +6,14 @@ import java.util.function.Consumer
 //var listener: ChangeListener<String>? = null
 
 
-class Tempo(val a:String){
-  open fun showSomething() = println("Hello "+a)
+class Tempo(val a: String) {
+  open fun showSomething() = println("Hello " + a)
 }
 
 fun main(args: Array<String>) {
-  val tempo =Tempo("eug")
+  val tempo = Tempo("eug")
 
-  with(tempo){
+  with(tempo) {
     println("sd")
     showSomething()
   }

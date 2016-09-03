@@ -36,6 +36,6 @@ class ScrobbleService(session: Session = Session()) : LastFmService(session) {
             Pair(PARAMETER_TIMESTAMP, scrobbleData.timestamp.toString())))
     val signature = createSignature(signatureParams)
     val request = constructRequest(signatureParams, apiSig = signature)
-    val body = fmService.post(request)
+    fmService.post(request)
   }
 }

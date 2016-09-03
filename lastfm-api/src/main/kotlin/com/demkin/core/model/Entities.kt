@@ -36,7 +36,7 @@ class Attr {
   var uts: String? = null
   @JsonProperty("for")
   var _for: String? = null
-  var rank:String? = null
+  var rank: String? = null
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -88,7 +88,7 @@ class Track {
   var attr: Attr? = null
 
   @JsonProperty("@attr")
-  var _attr:Attr? = null
+  var _attr: Attr? = null
 
   //TODO - No Streamable properties!!
   // @JsonProperty("streamable")

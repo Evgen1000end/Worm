@@ -11,7 +11,7 @@ class ArtistTest {
   val artistService = Artist()
 
   @Test
-  fun artistTopTest(){
+  fun artistTopTest() {
     val res = artistService.getTopTracks("The Beatles")
 
     println(res)

@@ -33,7 +33,7 @@ class MainView : View() {
   val ini = Wini(File(DEFAULT_INI_PATH))
 
 
-  fun loadIni(){
+  fun loadIni() {
     model.lastFmLogin.value = ini.get(SECTION_CREDENTIALS, "lu")
     model.lastFmPassword.value = ini.get(SECTION_CREDENTIALS, "lp")
     model.vkLogin.value = ini.get(SECTION_CREDENTIALS, "vu")
@@ -41,18 +41,18 @@ class MainView : View() {
     session.key = ini.get(SECTION_SESSION, "key")
   }
 
-  fun saveIni(){
+  fun saveIni() {
 
     ini.add(SECTION_CREDENTIALS)
 
     if (!ini.containsKey("lu"))
-      ini.put(SECTION_CREDENTIALS,"lu",model.lastFmLogin.value)
+      ini.put(SECTION_CREDENTIALS, "lu", model.lastFmLogin.value)
     if (!ini.containsKey("lp"))
-      ini.put(SECTION_CREDENTIALS,"lp",model.lastFmPassword.value)
+      ini.put(SECTION_CREDENTIALS, "lp", model.lastFmPassword.value)
     if (!ini.containsKey("vu"))
-      ini.put(SECTION_CREDENTIALS,"vu",model.vkLogin.value)
+      ini.put(SECTION_CREDENTIALS, "vu", model.vkLogin.value)
     if (!ini.containsKey("vp"))
-      ini.put(SECTION_CREDENTIALS,"vp",model.vkPassword.value)
+      ini.put(SECTION_CREDENTIALS, "vp", model.vkPassword.value)
     ini.store()
   }
 
@@ -100,13 +100,13 @@ class MainView : View() {
 
   private fun loginLastFm(): Boolean {
     try {
-      if (session.key!=null){
-        return  true
+      if (session.key != null) {
+        return true
       } else {
         session = Authenticator().fetchSession(model.credentials.lastFmLogin.value, model.credentials.lastFmPassword.value)
         ini.add(SECTION_SESSION)
         if (!ini.containsKey("key"))
-          ini.put(SECTION_SESSION,"key",session.key)
+          ini.put(SECTION_SESSION, "key", session.key)
         ini.store()
         return session != null
       }
@@ -125,7 +125,6 @@ class MainView : View() {
         if (success) {
           val v = ProtectedView(session)
           v.openModal(modality = Modality.NONE)
-          // replaceWith(ProtectedView::class, ViewTransition.SlideIn)
         } else
           alert(Alert.AlertType.WARNING, "Login failed", "Check your credentials")
       }

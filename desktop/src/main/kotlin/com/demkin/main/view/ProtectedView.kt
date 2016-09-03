@@ -12,13 +12,20 @@ import javafx.beans.binding.StringBinding
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.geometry.Orientation
+import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
+import javafx.scene.control.ProgressIndicator
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.layout.BorderPane
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 import javafx.scene.media.MediaView
 import javafx.util.StringConverter
 import ru.demkin.app.Styles
+import ru.demkin.app.StylesPlayer
 import tornadofx.*
 import tornadofx.control.ListItem
 import tornadofx.control.ListMenu
@@ -32,7 +39,7 @@ import java.text.ParsePosition
  * @since 07.08.2016
  */
 class ProtectedView(val session: Session) : View() {
-  override val root = Form().addClass(Styles.login)
+  override val root = Form().addClass(StylesPlayer.login)
   val artist = SimpleStringProperty()
   val song = SimpleStringProperty()
   val SHEEP_URL = "http://cs521313.vk.me//u10484188//audios//3af33d453269.mp3?extra=M7Cn4q2HaROnlE6BkezJ7zdHq1Q9H6v01pdVeTwOVs5zfblpD70s71hgMMsRn8zY_Rv6IXhjWqr7GFFBkQplM4rTmD5pCUUdT-Mebpv8PVl3Yz8TaSYnecqysmag9bdhogh2bY1kPCSF"
@@ -41,56 +48,94 @@ class ProtectedView(val session: Session) : View() {
   val userService = User()
   val artistService = Artist()
   var topTracks = ArtistTopTracks()
+  val imageView = ImageView()
+
 
   init {
     title = "Send Artist/Song information on server"
     with(root) {
-      fieldset {
-        labelPosition = Orientation.VERTICAL
 
-        field("Artist name") {
-          textfield().bind(artist)
+
+
+      val borderPane = BorderPane()
+
+      borderPane.top = hbox {
+        spacing = 10.0
+
+        val cbSongList = ComboBox<String>()
+        cbSongList.bind(property = selectedSong)
+        cbSongList.bind(property = song)
+        add(cbSongList)
+        button("Find top tracks") {
+          setOnAction {
+            cbSongList.items.clear()
+            topTracks = artistService.getTopTracks(artist.value)
+
+            if (topTracks.toptracks?.track?.size ?: 0 >0){
+              val artistImage = topTracks.toptracks?.track?.get(0)?.image
+              val artistImageUrl =  artistImage?.get(3)?.text
+              val index = artistImageUrl?.indexOf("s")
+              val tempBefore = artistImageUrl?.substring(0, index ?: 0)
+              val tempAfter = artistImageUrl?.substring(index?.plus(1) ?:0 , artistImageUrl.length)
+
+              println(tempBefore+ " "+tempAfter)
+
+              val correctUrl = tempBefore+tempAfter
+
+              println(correctUrl)
+              val img = Image(correctUrl,700.0, 700.0, false, false)
+              imageView.image = img
+            }
+
+            topTracks.toptracks?.track?.forEach {
+              cbSongList.items.add(it.name)
+            }
+          }
         }
-        field("Vk username") {
-          textfield().bind(song)
-        }
-      }
-      button("Scrobble it!") {
-        setOnAction {
-          send()
-        }
-      }
-      add(OraclePlayerView(MediaPlayer(Media(SHEEP_URL))))
 
-      val cbSongList = ComboBox<String>()
-      cbSongList.bind(property =selectedSong )
-      add(cbSongList)
+        vbox {
+          hbox {
+            label("Artist name")
+            textfield().bind(artist)
+          }
 
+          hbox {
+            label("Song name")
+            textfield().bind(song)
+          }
 
-//      combobox<String>(property = selectedSong) {
-//        userService.getLovedTracks("Wi-Al").lovedtracks?.track?.forEach {
-//          items.add(it.artist?.name+" - "+it.name)
-//        }
-//        valueProperty().addListener { observableValue, s1, s2->
-//          println(s1+" "+s2)
-//          println(observableValue)
-//        }
-//
-//      }
-
-      label("test").bind(selectedSong)
-
-      button("Find top tracks") {
-
-        setOnAction {
-          cbSongList.items.clear()
-          topTracks = artistService.getTopTracks(artist.value)
-
-          topTracks.toptracks?.track?.forEach {
-            cbSongList.items.add(it.artist?.name+" - "+it.name)
+          button("Scrobble it!") {
+            setOnAction {
+              send()
+            }
           }
         }
       }
+
+      borderPane.center = vbox {
+
+        alignment = Pos.CENTER
+
+        add(imageView)
+
+        imageView.prefHeight(800.0)
+        imageView.prefWidth(800.0)
+
+        val img = Image("http://lastfm-img2.akamaized.net/i/u/300x300/64eb091a1d34441697072b74584e3727.png",
+                  700.0, 700.0, false, false)
+        imageView.image = img
+
+      }
+
+      borderPane.bottom = hbox {
+        vbox {
+          label("test").bind(selectedSong)
+          add(OraclePlayerView(MediaPlayer(Media(SHEEP_URL))))
+        }
+      }
+
+      add(borderPane)
+
     }
   }
 

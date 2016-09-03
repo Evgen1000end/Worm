@@ -13,7 +13,7 @@ import com.demkin.core.model.UserLovedTracks
  */
 class Artist(session: Session = Session()) : LastFmService(session) {
 
-  open fun getTopTracks(artist: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE):ArtistTopTracks{
+  fun getTopTracks(artist: String, limit: Int = DEFAULT_LIMIT, page: Int = DEFAULT_PAGE): ArtistTopTracks {
     val params = mapOf(
             Pair(PARAMETER_ARTIST, artist),
             Pair(PARAMETER_LIMIT, limit.toString()),

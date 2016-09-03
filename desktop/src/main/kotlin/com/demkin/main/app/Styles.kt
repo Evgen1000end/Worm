@@ -37,3 +37,28 @@ class Styles : Stylesheet() {
     }
   }
 }
+
+
+class StylesPlayer : Stylesheet() {
+  companion object {
+    val login by cssclass()
+    val loginWidht = 1600.px
+    val loginHeight = 1000.px
+  }
+
+  init {
+    login {
+      padding = box(25.px)
+      spacing = 10.px
+      fontSize = 20.px
+      fontWeight = FontWeight.BOLD
+      prefWidth = loginWidht
+      prefHeight = loginHeight
+
+      progressIndicator {
+        prefWidth = 16.px
+        prefHeight = prefWidth
+      }
+    }
+  }
+}

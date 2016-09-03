@@ -67,7 +67,7 @@ class LastFmModelTest {
   }
 
   @Test
-  fun parseArtistTopTracks(){
+  fun parseArtistTopTracks() {
     val artistTopTracks = mapper.readValue(artist_top, ArtistTopTracks::class.java)
     println(artistTopTracks)
   }

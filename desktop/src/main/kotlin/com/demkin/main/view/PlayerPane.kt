@@ -26,7 +26,7 @@ import java.util.*
 /**
  * Created by demkinev on 28.08.2016.
  */
-class PlayerPane:StackPane() {
+class PlayerPane : StackPane() {
 
   val TAG_COLUMN_NAME = "Tag"
   val VALUE_COLUMN_NAME = "Value"
@@ -39,7 +39,7 @@ class PlayerPane:StackPane() {
   val SHEEP_URL = "http://cs521313.vk.me//u10484188//audios//3af33d453269.mp3?extra=M7Cn4q2HaROnlE6BkezJ7zdHq1Q9H6v01pdVeTwOVs5zfblpD70s71hgMMsRn8zY_Rv6IXhjWqr7GFFBkQplM4rTmD5pCUUdT-Mebpv8PVl3Yz8TaSYnecqysmag9bdhogh2bY1kPCSF"
 
 
-  init{
+  init {
     val players = ArrayList<MediaPlayer>()
     players.add(createPlayer(SHEEP_URL))
 
@@ -103,7 +103,7 @@ class PlayerPane:StackPane() {
     metadataTable.selectionModel.isCellSelectionEnabled = true
     metadataTable.columns.setAll(tagColumn, valueColumn)
 
-    valueColumn.cellFactory = Callback<TableColumn<Map<*,*>, Any>, TableCell<Map<*,*>, Any>>() {
+    valueColumn.cellFactory = Callback<TableColumn<Map<*, *>, Any>, TableCell<Map<*, *>, Any>>() {
       object : TableCell<Map<*, *>, Any>() {
         override fun updateItem(item: Any?, empty: Boolean) {
           super.updateItem(item, empty)
@@ -157,7 +157,7 @@ class PlayerPane:StackPane() {
 
     progress.progress = 0.0
 
-   // progressChangeListener = { observableValue, oldValue, newValue -> progress.progress = 1.0 * newPlayer.currentTime.toMillis() / newPlayer.totalDuration.toMillis() }
+    // progressChangeListener = { observableValue, oldValue, newValue -> progress.progress = 1.0 * newPlayer.currentTime.toMillis() / newPlayer.totalDuration.toMillis() }
 
     progressChangeListener = ChangeListener<javafx.util.Duration>
     { observableValue, oldValue, newValue -> progress.progress = 1.0 * newPlayer.currentTime.toMillis() / newPlayer.totalDuration.toMillis() }

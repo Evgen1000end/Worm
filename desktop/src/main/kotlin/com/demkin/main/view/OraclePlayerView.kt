@@ -23,7 +23,7 @@ import javafx.util.Duration;
 /**
  * Created by demkinev on 29.08.2016.
  */
-class OraclePlayerView:BorderPane {
+class OraclePlayerView : BorderPane {
   private val mp: MediaPlayer
   private val mediaView: MediaView
   private val repeat = false
