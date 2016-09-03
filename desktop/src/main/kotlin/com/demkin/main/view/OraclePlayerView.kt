@@ -15,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
@@ -24,8 +25,8 @@ import javafx.util.Duration;
  * Created by demkinev on 29.08.2016.
  */
 class OraclePlayerView : BorderPane {
-  private val mp: MediaPlayer
-  private val mediaView: MediaView
+  private var mp: MediaPlayer? = null
+  private var mediaView: MediaView
   private val repeat = false
   private var stopRequested = false
   private var atEndOfMedia = false
@@ -35,6 +36,13 @@ class OraclePlayerView : BorderPane {
   private val playTime: Label
   private val volumeSlider: Slider
   private val mediaBar: HBox
+
+  fun changeTrack(mv: Media){
+    mp!!.stop()
+    mp = MediaPlayer(mv)
+    mediaView.mediaPlayer = mp
+    mp!!.play()
+  }
 
   constructor(mp: MediaPlayer) {
     this.mp = mp
@@ -119,7 +127,9 @@ class OraclePlayerView : BorderPane {
 
     timeSlider.valueProperty().addListener(InvalidationListener {
       if (timeSlider.isValueChanging) {
-        // multiply duration by percentage calculated by slider position
+
+        println(timeSlider.value / 100.0)
+
         mp.seek(duration!!.multiply(timeSlider.value / 100.0))
       }
     })
@@ -154,16 +164,16 @@ class OraclePlayerView : BorderPane {
   protected fun updateValues() {
     if (playTime != null && timeSlider != null && volumeSlider != null) {
       Platform.runLater {
-        val currentTime = mp.getCurrentTime()
-        playTime.text = formatTime(currentTime, duration)
-        timeSlider.setDisable(duration?.isUnknown())
+        val currentTime = mp!!.getCurrentTime()
+        playTime.text = formatTime(currentTime  , duration)
+        timeSlider.setDisable(duration.isUnknown())
         if (!timeSlider.isDisabled
-                && duration?.greaterThan(Duration.ZERO)
+                && duration.greaterThan(Duration.ZERO)
                 && !timeSlider.isValueChanging) {
-          timeSlider.value = currentTime.divide(duration).toMillis() * 100.0
+          timeSlider.value = currentTime.divide(duration).toMillis()  * 100.0
         }
         if (!volumeSlider.isValueChanging()) {
-          volumeSlider.setValue(Math.round(mp.getVolume() * 100).toDouble())
+          volumeSlider.setValue(Math.round(mp!!.getVolume()  * 100).toDouble())
         }
       }
     }

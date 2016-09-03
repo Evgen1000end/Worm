@@ -21,7 +21,7 @@ class AuthTest {
     Desktop.getDesktop().browse(URL(reqUrl).toURI())
   }
 
-  @Test(enabled = true)
+  @Test(enabled = false)
   fun authWithTokenTest() {
     auth("5608043")
   }
@@ -31,5 +31,4 @@ class AuthTest {
   }
 }
 
-
-//https://oauth.vk.com/blank.html#access_token=00f2b7449c5cf69e068a8355261f0809d2ee10e186586c499be99dbd9b1f30b1ca34f7032e559ded2ff45&expires_in=86400&user_id=25604228
+//https://oauth.vk.com/blank.html#access_token=aeec1c8e02eda3ff203043be492a44af71744e082d467a84b7566d73acfb33e840b510dd674cc956afaba&expires_in=86400&user_id=25604228

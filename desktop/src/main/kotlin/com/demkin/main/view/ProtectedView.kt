@@ -7,6 +7,7 @@ import com.demkin.core.services.ScrobbleService
 import com.demkin.core.services.User
 import com.demkin.main.view.OraclePlayerView
 import com.demkin.main.view.PlayerPane
+import com.main.AudioService
 import javafx.beans.binding.DoubleBinding
 import javafx.beans.binding.StringBinding
 import javafx.beans.property.SimpleStringProperty
@@ -42,22 +43,24 @@ class ProtectedView(val session: Session) : View() {
   override val root = Form().addClass(StylesPlayer.login)
   val artist = SimpleStringProperty()
   val song = SimpleStringProperty()
-  val SHEEP_URL = "http://cs521313.vk.me//u10484188//audios//3af33d453269.mp3?extra=M7Cn4q2HaROnlE6BkezJ7zdHq1Q9H6v01pdVeTwOVs5zfblpD70s71hgMMsRn8zY_Rv6IXhjWqr7GFFBkQplM4rTmD5pCUUdT-Mebpv8PVl3Yz8TaSYnecqysmag9bdhogh2bY1kPCSF"
+  val SHEEP_URL = "http://cs1-37v4.vk-cdn.net/p15/8d1c18c9960eda.mp3?extra=Ptm8GwuD02AiDR7c1vHX1xTfpxPzfqDn8CfDSpSbp0vpFVpIlT_gJnob1BUUnLhrFldWmz1Gk_E1i1oUbNqePyFhq1m-8wNHsj05xq-s2dsYQGTaxN2s1_yF1InQHvMoO480ai_ajKs"
 
   val selectedSong = SimpleStringProperty()
   val userService = User()
   val artistService = Artist()
   var topTracks = ArtistTopTracks()
   val imageView = ImageView()
+  var player:OraclePlayerView =OraclePlayerView(MediaPlayer(Media(SHEEP_URL)))
+  val vkService = AudioService()
+  val borderPane= BorderPane()
+
+
 
 
   init {
+
     title = "Send Artist/Song information on server"
     with(root) {
-
-
-
-      val borderPane = BorderPane()
 
       borderPane.top = hbox {
         spacing = 10.0
@@ -66,6 +69,21 @@ class ProtectedView(val session: Session) : View() {
         cbSongList.bind(property = selectedSong)
         cbSongList.bind(property = song)
         add(cbSongList)
+
+        cbSongList.valueProperty().addListener { observableValue, s1, s2 ->
+          val request = artist.value+" "+song.value
+
+          val res =  vkService.searchAudioByRequest(request)
+
+          if (res.response.size>0) {
+            val trackUrl = res.response.get(0).url ?: ""
+
+            println("trackUrl " +trackUrl)
+            player.changeTrack(Media(trackUrl))
+          }
+         }
+
+
         button("Find top tracks") {
           setOnAction {
             cbSongList.items.clear()
@@ -127,15 +145,14 @@ class ProtectedView(val session: Session) : View() {
 
       }
 
-      borderPane.bottom = hbox {
-        vbox {
-          label("test").bind(selectedSong)
-          add(OraclePlayerView(MediaPlayer(Media(SHEEP_URL))))
-        }
-      }
-
+      borderPane.bottom =
+              hbox {
+                vbox {
+                  label("test").bind(selectedSong)
+                  add(player)
+                }
+              }
       add(borderPane)
-
     }
   }
 

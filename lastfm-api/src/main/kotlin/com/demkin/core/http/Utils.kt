@@ -40,6 +40,8 @@ private fun constructRequest(methodName: String, params: String = "", useHttps: 
   return "$protocol$REQUEST_SEPARATOR$methodName$params"
 }
 
+
+
 fun constructRequest(params: SignatureParams, apiSig: String = "", useHttps: Boolean = false): String {
   fun generateSigParam(apiSig: String) = if (apiSig == "") "" else "&api_sig=" + apiSig
   return constructRequest(params.methodName, params.params.httpParam(), useHttps) + generateSigParam(apiSig)
